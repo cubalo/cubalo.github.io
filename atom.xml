@@ -4,7 +4,7 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-10T16:07:15-04:00</updated>
+  <updated>2014-04-10T16:08:42-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
@@ -20,7 +20,7 @@
     <id>http://cubalo.github.io/blog/2014/04/10/reboot</id>
     <content type="html"><![CDATA[<p>After a long battle with WordPress, I&rsquo;ve finally decided it&rsquo;s time to move on. The old site will be decommissioned within the week or possibly repurposed.</p>
 
-<p>Please excuse the formatting of the posts before this. Jekyll converts the WordPress XML to HTML while Octopress uses Markdown.</p>
+<p>Please excuse the formatting of the posts before this. Jekyll converts the WordPress XML to HTML which Octopress didn&rsquo;t like.</p>
 ]]></content>
   </entry>
   
