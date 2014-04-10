@@ -1,6 +1,108 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://cubalo.github.io/blog/2012/09/26/ieee-breached-100k-unencrypted-passwords-2/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/04/02/i/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/04/06/building-a-network-implant-with-a-raspberry-pi-and-kali/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/04/10/a-beginners-guide-to-tubular-lock-picking/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/04/21/plaidctf-2013-writeup/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/05/08/update-av-evasion-with-metasploit-pros-dynamic-executable-option/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/06/14/2013-owasp-top-10-released/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/07/20/increasing-the-strength-of-directional-802-11-antennas/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/07/21/black-hat-usa-2013-briefings-to-attend/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/07/21/ubuntu-forums-breached/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/07/26/extracting-exif-data-with-linux/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/08/05/gen-alexander-black-hat-2013/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/09/13/creating-wordlists-with-crunch/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/10/01/csaw-ctf-2013-writeup/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/11/23/sqlmap-basics-vs-dvwa/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/11/30/avlol/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/12/02/bug-fix-binwalk-global-name-plugins-is-not-defined/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2013/12/07/deauthing-wireless-clients/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://cubalo.github.io/blog/2013/12/13/50-shades-of-red-stories-from-the-playroom/
+        </loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2014/01/04/bypassing-xss-filters-using-data-uris/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cubalo.github.io/blog/2014/01/17/luks-nuke-new-to-kali-1-0-6/</loc>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://cubalo.github.io/blog/2014/04/10/reboot/</loc>
         <lastmod>2014-04-10T14:21:58-04:00</lastmod>
     </url>
@@ -18,10 +120,10 @@
     </url>
     <url>
         <loc>http://cubalo.github.io/</loc>
-        <lastmod>2014-04-10T15:36:47-04:00</lastmod>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
     </url>
     <url>
         <loc>http://cubalo.github.io/blog/archives/</loc>
-        <lastmod>2014-04-10T15:36:47-04:00</lastmod>
+        <lastmod>2014-04-10T16:00:00-04:00</lastmod>
     </url>
 </urlset>

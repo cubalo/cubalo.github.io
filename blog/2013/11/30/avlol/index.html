@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>#avlol - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet #avlol Veil, an antivirus evasion tool, created by Chris Truncer, Mike Wright, and The Grayhound was recently added to the Kali repositories. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/11/30/avlol/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/11/30/avlol/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/11/30/avlol/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">#avlol</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-30T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>Veil, an antivirus evasion tool, created by Chris Truncer, Mike Wright, and The Grayhound was recently added to the Kali repositories. The developers presented it at NoVA Hackers some weeks ago and it really sparked my interest. I haven&#8217;t had much opportunity to test the payloads it creates, however I have heard of numerous successes with it.</p>
+<p>Before we get started, <strong>PLEASE</strong> do not submit your payloads to VirusTotal!</p>
+<h2>Installation</h2>
+<p>Since Veil is now in the Kali repositories, a simple apt-get will install it for you.</p>
+<pre>apt-get update &amp;&amp; apt-get install veil</pre>
+<p>This method, however, does not ensure that you are using the bleeding-edge release of Veil, so you can also pull the project down from Github.</p>
+<pre>git clone https://github.com/veil-evasion/Veil.git
+cd Veil/setup/
+./setup.sh</pre>
+<h2>Creating a Windows payload</h2>
+<p>Once installed, start Veil (veil for the apt-get method, ./Veil.py for git). This will load the framework and its current 20 payloads. For the sake of simplicity, we will create a reverse_tcp Meterpreter payload.</p>
+<p>First, list all of the available payloads.</p>
+<pre>list</pre>
+<p>This will show the available payload names and their rating. For more information on a payload, type:</p>
+<pre>info $num</pre>
+<p>where the $num is the number next to the payload.</p>
+<p>Choose number 13, python/AESEncrypted.</p>
+<p>The options are set similarly to Metasploit, so this should be old-hat. If you&#8217;d like to use pyherion, for example, the syntax would be:</p>
+<pre>set use_pyherion Y</pre>
+<p>Now type generate to start generating the payload. The next section will allow you to choose a source for your shellcode. You can either use msfvenom or provide your custom shellcode. Here, we&#8217;ll opt for msfvenom.</p>
+<p>Hit Enter to select the windows/meterpreter/reverse_tcp payload. Again, you can use whatever payload you&#8217;d like. Now, enter the LHOST address (where you want the connection to come back to) and the LPORT number (port to connect back on). Finally, you can enter any other msfvenom options in OPTION=value syntax, but we&#8217;ll skip that for now.</p>
+<p>Once you hit Enter, it will generate your shellcode and prompt you to name your payload. Obviously you can change this to whatever you want at a later time, so just name it something easy to remember for the time being. Then you will be prompted to select the method for creating the executable (in this case Pyinstaller or Py2Exe). Choose Pyinstaller and run.</p>
+<p>The payload is now created and a bit of information about it is shown in the terminal. The executable will be dropped in ~/veil-output/sources/ and an RC file will be dropped in ~/veil-output/handlers/</p>
+<h2>Receiving sessions</h2>
+<p>As you may have noticed in the last section, Veil makes an RC file when the payload is generated. This will be used with Metasploit to set up a handler to listen for incoming connections.</p>
+<p>To set up the handler, navigate into the handler directory (~/veil-output/handlers/) and run this command with your handler name substituted:</p>
+<pre>msfconsole -r payload_handler.rc</pre>
+<p>The handler will be running as a background job awaiting the callback from the payload.</p>
+<p>Finally, send the payload out to your victim via your method of choice. Once they click it and it executes, you will have your standard meterpreter session and you can start post exploitation and/or pivoting.</p>
+<h2>More information</h2>
+<p>There are numerous guides posted the Veil website showing exactly how to use this method and numerous others to create payloads. The devopers are also on Twitter, @ChrisTruncer @TheMightyShiv @the_grayhound</p>
+<p>https://www.veil-evasion.com/guidesvideos/</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Increasing the Strength of Directional 802.11 Antennas - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Increasing the Strength of Directional 802.11 Antennas NOTE: The methods described in this tutorial are illegal in the United States. I cannot &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/07/20/increasing-the-strength-of-directional-802-11-antennas/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/07/20/increasing-the-strength-of-directional-802-11-antennas/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/07/20/increasing-the-strength-of-directional-802-11-antennas/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Increasing the Strength of Directional 802.11 Antennas</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-20T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p><strong>NOTE: The methods described in this tutorial are <span style="text-decoration: underline;">illegal</span> in the United States. I cannot be held responsible for what you choose to do with this information. Please see <a href="http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&amp;SID=46df928b983f3d87aec0fc5c468ca9a1&amp;rgn=div5&amp;view=text&amp;node=47:1.0.1.1.16&amp;idno=47#47:1.0.1.1.16.3.234.31" target="_blank">FCC Title 47, Section 15.247</a> for more information on RF regulations and limitations within the US.</strong></p>
+<p>I recently learned about a little trick for getting the most out of directional wifi antennas. In the US, the FCC prohibits devices with a maximum Equivalent Isotropically Radiated Power (EIRP) greater than 36dBm (4 Watts). This is calculated by adding the antenna gain and the device&#8217;s output power. The table below shows some examples.</p>
+<table width="93%" border="0">
+<tbody>
+<tr>
+<td align="center" height="34"><b><span style="font-size: small;">Antenna<br />
+Gain (dBi)</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">Device Output<br />
+Power Allowed</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">EIRP<br />
+(dBm)</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">EIRP<br />
+(Watts)</span></b></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">6</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">30dBm or 1000mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">9</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">27dBm or 500mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">12</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">24dBm or 250mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">15</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">21dBm or 125mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+</tbody>
+</table>
+<p>So by giving a high-gain device more power, say all the way up to 1W (1000mW), you could go past this EIRP limit and increase the strength of the signal. Mind you, this is not only illegal but can also cause a serious health hazard. So if you plan to try this, please read the <a href="http://transition.fcc.gov/Bureaus/Engineering_Technology/Documents/bulletins/oet65/oet65.pdf" target="_blank">FCC OET 65 guidlines for human safety</a>.</p>
+<p>Implementing this only takes a few commands. Linux&#8217;s iw command allows you to manipulate radios connected to your device very simply. The first thing to do is to connect your radio and find out which interface it comes up as. You can find this information with the iwconfig command. This is what mine looked like:</p>
+<pre>root@cubalo:~# iwconfig 
+lo no wireless extensions.
+
+wlan1 IEEE 802.11abgn ESSID:off/any 
+ Mode:Managed Access Point: Not-Associated Tx-Power=27 dBm 
+ Retry long limit:7 RTS thr:off Fragment thr:off
+ Encryption key:off
+ Power Management:on</pre>
+<p>The important field to watch is &#8220;Tx-Power.&#8221;</p>
+<p>Now that we know the radio came up as wlan1, we can manipulate it by changing the country code and thus removing the FCC restrictions. For example&#8217;s sake, we will change the country code to Bolivia, but in theory you could change it to whatever ISO 3166-alpha2 country code you want.</p>
+<pre>ifconfig wlan1 down
+iw reg set BO</pre>
+<p>Now you are free to up the power and you can also use higher channels than the FCC allows in the States. Make sure to set the tx power to use the maximum output possible. My radio can handle 1000mW (1W), so I will use 30dBm in the command below, but you can change that to suit your needs. To change the tx power and bring the interface back up, use the following command:</p>
+<pre>iwconfig wlan1 txpower 30
+ifconfig wlan1 up</pre>
+<p>Finally, check the interface&#8217;s configuration again and verify that the Tx-Power field has changed.</p>
+<pre>root@cubalo:~# iwconfig wlan1
+wlan1 IEEE 802.11abgn ESSID:off/any 
+ Mode:Managed Frequency:2.472 GHz Access Point: Not-Associated 
+ Tx-Power=30 dBm 
+ Retry long limit:7 RTS thr:off Fragment thr:off
+ Encryption key:off
+ Power Management:on</pre>
+<p>For more information about manipulating the radio, read the <a href="http://wireless.kernel.org/en/users/Documentation/iw" target="_blank">Linux wireless documentation</a>.</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

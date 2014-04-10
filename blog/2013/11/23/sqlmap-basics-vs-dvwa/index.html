@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sqlmap Basics (vs. DVWA) - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Sqlmap Basics (vs. DVWA) I&#8217;ve been insanely busy with work for the past few weeks so I&#8217;ve been neglecting the site a bit. In the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/11/23/sqlmap-basics-vs-dvwa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/11/23/sqlmap-basics-vs-dvwa/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/11/23/sqlmap-basics-vs-dvwa/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Sqlmap Basics (vs. DVWA)</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-23T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>I&#8217;ve been insanely busy with work for the past few weeks so I&#8217;ve been neglecting the site a bit. In the past I&#8217;ve done a lot of web app testing, but as of late is has become a rare occurrence so I need to make sure I keep my skills up. Usually, I fire up Web Security Dojo and mess around a bit with WebGoat/Gruyere/DVWA. This time I thought I would actually put my thoughts and process into words and share it. In this tutorial, I will demonstrate how to use sqlmap to get SQL injection on DVWA under the medium security settings.</p>
+<h2>Setup</h2>
+<p>Start up a VM running something with DVWA (Dojo, Metasploitable, etc.) then login to the app (default credentials are admin:password). On the bottom-left side of the page will be a menu option titled &#8220;DVWA Security&#8221;. Click that and change the Script Security to &#8220;medium.&#8221; This doesn&#8217;t really matter since we will be using sqlmap to do the heavy lifting.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_1.png"><img class="alignnone size-medium wp-image-211" alt="sqlmap_1" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_1-300x244.png" width="300" height="244" /></a></p>
+<h2>Gathering Info</h2>
+<p>Next, fire up Burp Suite, start the proxy with Intercept turned off, and tell your browser to go through it (using the Foxy Proxy browser plugin is the easiest).</p>
+<p>In the browser, click the &#8220;SQL Injection&#8221; challenge from the menu on the left side of the page. Once the page is loaded, there will be a text box to search a user ID. Go back into Burp and turn on Intercept. In the browser, enter 1 into the box. This will return the information for the user with ID 1, admin. You&#8217;ll notice that the page isn&#8217;t loading. This is because Burp is intercepting the communication. Open up the Burp window and notice the GET request. From here, we want to grab the destination and cookie value and save it for later.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_2.png"><img class="alignnone size-medium wp-image-212" alt="sqlmap_2" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_2-300x121.png" width="300" height="121" /></a></p>
+<p>Click the Forward button until the page is loaded and turn off Intercept. Now go back the browser and you&#8217;ll see the SQLi page is loaded and showing the details for the user &#8220;admin.&#8221;</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_3.png"><img class="alignnone size-medium wp-image-213" alt="sqlmap_3" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_3-300x146.png" width="300" height="146" /></a></p>
+<p>This shows that the information we enter into the text box is what is being queried in the database, so this will be our target for injection.</p>
+<h2>Dumping users and passwords</h2>
+<p>In a terminal, we need to provide sqlmap with the options it needs to attack the app. The command you will want to enter is:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" --dbs</pre>
+<p>The structure of this command is as follows.</p>
+<ul>
+<li>-u  = Host (mine is 192.168.1.111) + Path (/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit)</li>
+<li>&#8211;cookie = Both of the cookies we captured in Burp. You will need two, security and PHPSESSID.</li>
+<li>&#8211;dbs = Enumerate databases</li>
+</ul>
+<p>When running, choose to continue with whatever sqlmap asks you. It will find that the &#8216;id&#8217; parameter is vulnerable and ask if you want to keep testing others. Choose &#8220;N.&#8221; Once completed, it will display the injection points (mine showed 4 types) and the available databases.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_4.png"><img class="alignnone size-medium wp-image-214" alt="sqlmap_4" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_4-300x160.png" width="300" height="160" /></a></p>
+<p>From here, we need to select what database we want to go after. For this example, we&#8217;ll hit &#8220;dvwa.&#8221; So now, in sqlmap we need to find out the tables in the database. To do this, we need to modify the options a little bit. Remove the &#8211;dbs option and add &#8220;-D dvwa &#8211;tables&#8221; to make the new command:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa --tables</pre>
+<p>This will show us the tables, guestbook and users.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_5.png"><img class="alignnone size-medium wp-image-215" alt="sqlmap_5" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_5-300x160.png" width="300" height="160" /></a></p>
+<p>Next we&#8217;ll dump the columns from the table. Do this by removing the &#8220;&#8211;tables&#8221; option from the command and add &#8220;-T users &#8211;columns&#8221; and run it.</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa -T users --columns</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_6.png"><img class="alignnone size-medium wp-image-216" alt="sqlmap_6" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_6-300x160.png" width="300" height="160" /></a></p>
+<p>We can see that there are some interesting values in this table, so we definitely want to dump this. A cool option sqlmp provides us with is the ability to bruteforce password hashes during the dump. During the next and final command, we will have the option to crack the hashes so make sure to approve it when it pops up (the default dictionary, option 1, works just fine). The final command to dump the table&#8217;s data is:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa -T users --dump</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_7.png"><img class="alignnone size-medium wp-image-217" alt="sqlmap_7" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_7-300x160.png" width="300" height="160" /></a></p>
+<p>When it is done cracking, we will have all of the passwords for DVWA, including the admin user.</p>
+<h2>Conclusion</h2>
+<p>Obviously, we were attacking an extremely vulnerable web application in this tutorial, however sqlmap provides a ton of options to tailor the command to your needs for the more challenging tests. I have found that during a normal assessment, sqlmap can prove to be very useful, however do not expect it to be a skeleton key for all databases you come across. For example, by changing the Script Security to &#8220;high&#8221; in DVWA, restrictions are placed on the &#8216;id&#8217; parameter which was found to be injectable on the medium security setting, making it non-injectable using the method in this tutorial.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_8.png"><img class="alignnone size-medium wp-image-218" alt="sqlmap_8" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_8-300x116.png" width="300" height="116" /></a></p>
+<p>(Notice the &#8220;$id = stripslashes($id);&#8221; and if statement checking if the $id value is numeric.)</p>
+<p>Also, don&#8217;t forget to turn off your machine or VM running your vulnerable app when you are done!</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

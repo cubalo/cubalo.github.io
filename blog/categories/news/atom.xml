@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: news | cubalo]]></title>
+  <link href="http://cubalo.github.io/blog/categories/news/atom.xml" rel="self"/>
+  <link href="http://cubalo.github.io/"/>
+  <updated>2014-04-10T16:00:13-04:00</updated>
+  <id>http://cubalo.github.io/</id>
+  <author>
+    <name><![CDATA[Matt]]></name>
+    <email><![CDATA[matt@cubalo.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[LUKS Nuke new to Kali 1.0.6]]></title>
+    <link href="http://cubalo.github.io/blog/2014/01/17/luks-nuke-new-to-kali-1-0-6/"/>
+    <updated>2014-01-17T00:00:00-05:00</updated>
+    <id>http://cubalo.github.io/blog/2014/01/17/luks-nuke-new-to-kali-1-0-6</id>
+    <content type="html"><![CDATA[<p>An emergency LUKS self-destruct functionality was recently added to Kali v1.0.6. The way this works is by setting two unique decryption passwords; one password will decrypt the data on the drive and allow for normal use and the other password will "destroy" the data on the drive. It is fairly easy to configure and a lot of people are excited about it. More information on the feature can be found on the <a href="http://www.kali.org/how-to/emergency-self-destruction-luks-kali/" target="_blank">Kali website</a>.</p>
+
+
+<p>However, I'm a bit skeptical about this. The way I look at it, this will stop only the laziest and least skilled individuals. Think about it this way, if I were to seriously seize/steal/inspect a laptop with this feature, the first thing I would do is make a copy of the drive. If you provided me the nuke password, I'd say that it didn't work and revert to the initial image and start again.</p>
+
+
+<p>More aggressively, if the owner is abducted or the laptop is seized, I see two outcomes:</p>
+
+
+<ul>
+<li>The owner gives the criminal the nuke password, destroys the data, and is subsequently beaten/killed.</li>
+<li>The owner gives an LEO the nuke password, destroys the data, and catches an obstruction of justice charge (<a href="http://www.law.cornell.edu/uscode/text/18/1519">federally punishable up to 20 years</a>).</li>
+</ul>
+
+
+<p>So what threat is this really protecting against?</p>
+
+
+<p>&nbsp;</p>
+
+
+<p>&nbsp;</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gen. Alexander Black Hat 2013 Keynote]]></title>
+    <link href="http://cubalo.github.io/blog/2013/08/05/gen-alexander-black-hat-2013/"/>
+    <updated>2013-08-05T00:00:00-04:00</updated>
+    <id>http://cubalo.github.io/blog/2013/08/05/gen-alexander-black-hat-2013</id>
+    <content type="html"><![CDATA[<p>http://www.youtube.com/watch?v=V3_pmuJRs84</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Forums Breached]]></title>
+    <link href="http://cubalo.github.io/blog/2013/07/21/ubuntu-forums-breached/"/>
+    <updated>2013-07-21T00:00:00-04:00</updated>
+    <id>http://cubalo.github.io/blog/2013/07/21/ubuntu-forums-breached</id>
+    <content type="html"><![CDATA[<p>At 20:11UTC, a defacement of the Ubuntu Forums was reported to Canonical and at 20:15UTC the site was taken down and replaced with a splash page. According to the official Canonical statement, the attack method used in the breach is still unknown. The statement also states:</p>
+
+
+<blockquote>
+<ul>
+<li>We have confirmed the attackers <strong>were able to access all user email addresses and hashed passwords</strong> on the Forums site. While the passwords were not stored in plain text, good practice dictates that users should assume the passwords have been accessed and change them. If users used the same password on other services they should immediately change that password.</li>
+</ul>
+<ul>
+<li>We believe the issue is limited to the Ubuntu Forums and no other Ubuntu or Canonical site or service is affected.</li>
+</ul>
+<ul>
+<li>We have begun the process of notifying by email all users whose details have been compromised.</li>
+</ul>
+</blockquote>
+
+
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/07/ubuntu_forums_screenshot.png"><img class="size-medium wp-image-171 aligncenter" alt="ubuntu_forums_screenshot" src="http://www.cubalo.com/blog/wp-content/uploads/2013/07/ubuntu_forums_screenshot-300x150.png" width="300" height="150" /></a></p>
+
+
+<p>If you are affected by this breach, now would be the time to update your passwords of other services, especially if you duplicate passwords. I will update this post as more information becomes available.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Black Hat USA 2013 - Briefings to Attend]]></title>
+    <link href="http://cubalo.github.io/blog/2013/07/21/black-hat-usa-2013-briefings-to-attend/"/>
+    <updated>2013-07-21T00:00:00-04:00</updated>
+    <id>http://cubalo.github.io/blog/2013/07/21/black-hat-usa-2013-briefings-to-attend</id>
+    <content type="html"><![CDATA[<p>I was reading through the talks that were selected for Black Hat USA this year and picked out a few that I found interesting. If you are going, I would recommend seeing these if at all possible and if you cannot, they should be posted online within a few months. I've linked each title to the description on the Black Hat website.</p>
+
+
+<ul>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Reidy" target="_blank">Combating the Insider Threat at the FBI: Real World Lessons Learned</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Hofmann2" target="_blank">What Security Researchers Need to Know About Anti-Hacking Law</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Esparza" target="_blank">PDF Attack: A Journey From the Exploit Kit to the Shellcode</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Niemi" target="_blank">Evading Deep Inspection for Fun and Shell</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Cole" target="_blank">OPSEC Failures of Spies</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Porter" target="_blank">Let's Get Physical: Breaking Home Security Systems and Bypassing Buildings Controls</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Lee" target="_blank">Hacking, Surveilling, and Deceiving Victims on Smart TV</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Lau" target="_blank">Mactans: Injecting Malware Into iOS Devices Via Malicious Chargers</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Duckwall" target="_blank">Pass-the-Hash 2: The Admin's Revenge</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Yarochkin" target="_blank">Hunting the Shadows: In Depth Analysis of Escalated APT Attacks</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Salgado" target="_blank">') UNION SELECT `THIS_TALK` AS ('NEW OPTIMIZATION AND OBFUSCATION TECHNIQUES’)%00</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Espinhara" target="_blank">Using Online Activity as Digital Fingerprints to Create a Better Spear Phisher</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Crowley" target="_blank">Home Invasion v2.0 - Attacking Network-Controlled Hardware</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Heffner" target="_blank">Exploiting Network Surveillance Cameras Like a Hollywood Hacker</a></li>
+<li><a href="https://www.blackhat.com/us-13/briefings.html#Williams" target="_blank">Post Exploitation Operations with Cloud Synchronization Services</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2013 OWASP Top 10 Released]]></title>
+    <link href="http://cubalo.github.io/blog/2013/06/14/2013-owasp-top-10-released/"/>
+    <updated>2013-06-14T00:00:00-04:00</updated>
+    <id>http://cubalo.github.io/blog/2013/06/14/2013-owasp-top-10-released</id>
+    <content type="html"><![CDATA[<p>On June 12, the Open Web Application Security Project (OWASP) released an updated list of the top 10 web application vulnerabilities facing developers. This is the first major update to the list since 2010, which was well integrated into many web app testing frameworks and methodologies.</p>
+
+
+<p>The OWASP Top 10 - 2013 is as follows:</p>
+
+
+<ul>
+<li>A1 - <a href="https://www.owasp.org/index.php/Top_10_2013-A1-Injection" target="_blank">Injection</a></li>
+<li>A2 - <a href="https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management" target="_blank">Broken Authentication and Session Management</a> (was formerly 2010-A3)</li>
+<li>A3 - <a href="https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_(XSS)" target="_blank">Cross-Site Scripting (XSS)</a> (was formerly 2010-A2)</li>
+<li>A4 - <a href="https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References" target="_blank">Insecure Direct Object References</a></li>
+<li>A5 - <a href="https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration" target="_blank">Security Misconfiguration</a> (was formerly 2010-A6)</li>
+<li>A6 - <a href="https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure" target="_blank">Sensitive Data Exposure</a> (2010-A7 Insecure Cryptographic Storage and 2010-A9 Insufficient Transport Layer Protection were merged to form 2013-A6)</li>
+<li>A7 - <a href="https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control" target="_blank">Missing Function Level Access Control</a> (renamed/broadened from 2010-A8 Failure to Restrict URL Access)</li>
+<li>A8 - <a href="https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)" target="_blank">Cross-Site Request Forgery (CSRF) </a>(was formerly 2010-A5)</li>
+<li>A9 - <a href="https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities" target="_blank">Using Known Vulnerable Components</a> (new but was part of 2010-A6 – Security Misconfiguration)</li>
+<li>A10 - <a href="https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards" target="_blank">Unvalidated Redirects and Forwards</a></li>
+</ul>
+
+
+<p>For more information, head over to the <a href="https://www.owasp.org/index.php/Top10" target="_blank">OWASP Top 10 project page.</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>

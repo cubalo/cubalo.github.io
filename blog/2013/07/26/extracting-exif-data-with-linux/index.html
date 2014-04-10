@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Extracting Exif Data with Linux - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Extracting Exif Data With Linux Exchangeable image file format, or Exif, is a standard for storing information in image files. Most digital &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2013/07/26/extracting-exif-data-with-linux/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2013/07/26/extracting-exif-data-with-linux/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2013/07/26/extracting-exif-data-with-linux/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Extracting Exif Data With Linux</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-26T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>Exchangeable image file format, or Exif, is a standard for storing information in image files. Most digital cameras, including smartphones, use Exif annotations. Some of the information stored includes exposure time, shutter speed, and F number, but more important to us is the date and time the photo was taken as well as GPS information. This information can be used to identify when and where a photo was taken, an obvious security concern.</p>
+<p>Granted, this is relatively old news but still relevant due to the sheer number of iPhones out there and the fact that you have to explicitly decline geotagging on those devices.</p>
+<p>In this post, I&#8217;m going to show how to retrieve this data from a photo and extract the useful information to track down when and where a photo was taken.</p>
+<p>The first thing to do is to install exiftools. Do this with the following command.</p>
+<pre>sudo apt-get install libimage-exiftool-perl</pre>
+<p>Once that is installed, grab the picture you want to analyze. <strong>It must be in either .TIF or .JPG format or you will not be able to pull the data. </strong>Put the picture somewhere easy to remember and run this command:</p>
+<pre>exifdata -a photo.JPG</pre>
+<p>This will display all of the Exif data available. There are a few key fields to look for:</p>
+<ul>
+<li><span style="line-height: 13px;">Make</span></li>
+<li>Camera Model Name</li>
+<li>Create Date</li>
+<li>GPS Latitude</li>
+<li>GPS Longitude</li>
+</ul>
+<p>Instead of parsing through all of that information for every photo, the following command will extract all of that information we care about.</p>
+<pre>exiftool -a -make -model -DateTimeOriginal -gps:all photo.JPG</pre>
+<p>This will present the information like so.</p>
+<pre>Make : Apple
+Camera Model Name : iPhone 5
+Date/Time Original : 2013:06:10 13:55:46
+GPS LatitudRee Ref : North
+GPS Latitude : 25 deg 11' 50.2152"
+GPS Longitude Ref : East
+GPS Longitude : 55 deg 16' 27.2208"
+GPS Altitude Ref : Above Sea Level
+GPS Altitude : 835.8427653 m
+GPS Time Stamp : 09:55:45.73
+GPS Img Direction Ref : True North
+GPS Img Direction : 5.834875116</pre>
+<p>Now this information can be taken to Google Maps/Earth and you can locate where that photo was taken within a few meters. For the sample above, this is what you should see:</p>
+<p><a href="http://www.cubalo.com/blog/wp-content/uploads/2013/07/google_maps_GPS.jpg"><img class="alignnone size-medium wp-image-162" alt="google_maps_GPS" src="http://www.cubalo.com/blog/wp-content/uploads/2013/07/google_maps_GPS-300x136.jpg" width="300" height="136" /></a></p>
+<h2> Remediation</h2>
+<p>Luckily this is very easy to fix on the iPhone. To avoid this happening to you, go into Settings &gt; Privacy &gt; Location Services  and make sure the slider next to Camera is set to &#8220;OFF.&#8221; Now GPS tags will not be added to your photos. If you alread have a photo you would like to remove the geotags from, issue the following command.</p>
+<pre>exiftool -a -gps:all= /Path/To/Image.JPG</pre>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>

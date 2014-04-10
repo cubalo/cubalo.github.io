@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bypassing XSS Filters using Data URIs - cubalo</title>
+  <meta name="author" content="Matt">
+
+  
+  <meta name="description" content="Tweet Bypassing XSS Filters Using Data URIs One of the web app testers on a team I work with shared a technique for bypassing XSS filters that I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cubalo.github.io/blog/2014/01/04/bypassing-xss-filters-using-data-uris/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="cubalo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body >
+  <header role="banner" id="sidebar">
+    <!-- Logo -->
+<aside id="logo" class="clearfix">
+  <div class="clearfix">
+    <a href="/">cubalo</a>
+  </div>
+</aside>
+
+<ul id="menu">
+
+  <li class="title">
+    <h1 id="title"><a href="/">cubalo</a></h1>
+  </li>
+
+
+  <li class="subtitle">
+    <h2 id="subtitle">Ramblings of an OFFSEC grunt</h2>
+  </li>
+
+  <li class="link">
+    <a href="/about/">about</a>
+  </li>
+
+  <li class="link">
+    <a href="http://twitter.com/mchandx/">twitter</a>
+  </li>
+
+
+  <li class="link">
+    <a href="http://github.com/mchandx/">github</a>
+  </li>
+
+  <li class="link rss">
+    <a href="/atom.xml">rss feed</a>
+  </li>
+</ul>
+
+
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cubalo.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+
+<!-- Octopress Love -->
+<aside id="octopress_linkback">
+  <a href="http://octopress.org/">
+    <span class="unicode_square">
+      <span class="unicode_circle">
+        &nbsp;
+      </span>
+    </span>
+    <span class="octopress">Powered by Octopress</span>
+  </a>
+</aside>
+
+  </header>
+  <section id="main">
+    <article class="post">
+  <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/2014/01/04/bypassing-xss-filters-using-data-uris/" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/2014/01/04/bypassing-xss-filters-using-data-uris/" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+  
+  <header>
+    
+      <h2 class="entry-title">Bypassing XSS Filters Using Data URIs</h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-04T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<p>One of the web app testers on a team I work with shared a technique for bypassing XSS filters that I hadn&#8217;t used (although admittedly I don&#8217;t get much hands-on time with web apps anymore) &#8211; using data uniform resource identifiers (URIs). Data URIs are defined by <a href="http://tools.ietf.org/html/rfc2397">RFC 2397</a> and can be used to embed file in an HTML document without referencing a file stored on the server.</p>
+<p>The way this works is by allowing the data to be self-contained within the URI and if a valid MIME type is specified, the data will be rendered. If a MIME type is not specified, it will default to text/plain which would be okay for textualized data, however to embed binary data one would need to specify base64 in the string. The syntax is as follows:</p>
+<pre>&lt;img src="data:[MIMEtype];base64,[DATA]"&gt;</pre>
+<p>So to embed this PNG</p>
+<p style="text-align: left;"><a href="http://www.cubalo.com/blog/wp-content/uploads/2014/01/glider.png"><img class="size-full wp-image-246" alt="glider" src="http://www.cubalo.com/blog/wp-content/uploads/2014/01/glider.png" width="55" height="55" /></a></p>
+<p>using the method shown, the string would be</p>
+<pre>&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA3CAAAAACNsI2aAAAACXBIWXMAAAB5AAAAeQBPsriEAAAB6ElEQVR42rVWO46EMAzNadAcY3vaOQMXoXcXKZehS8NpqNxamw8JxDYra1Zjhgge9jhx/By7bYvtl4Y8Qn+tEjty6WxuQ0KkfOM5wJEeEkT1bsigU+xGQV+QfZ2ned0LAkLnyQ4XV2XB/k+jXdTs8Mc1+UlvQehEt5Fit7hLFsUfqfOk3d1lJ9VO+qN1sFvJm+IScB7s3uo8ZVzC8RrsXjIuqp2n0d+sxFNbHxCw9cF34yn2L5jyJWndIprzRfqLpvw0+6PCh1fjgxpP5NL4VzlYEa6zOYDgzyvk0cMbykMek6THipSXAD5/BKh8H/3JGZTxPgM9Px9WDL0CkM1ORJie48nsWAXQ8kW1YxlknKfIWJs/EBXgoZ6Jf2KMNMYz4FgBJjTGkxR/H67vm/H8eP9ShlyRqfli24c0svy0zLNXgOkNtQJEle/P/MPOv8T3TGZIZIbO7sL7BMON74nkuQqUj4XvnMvwiNCBjO+yev2NVDtZLeX5rvD9lu0zauxW+a6dBvJ8H5Gyfzz3wIBkO57rYECyHeeWF+xW+YcT47Jkdzi4TpT+lPNdIv9Z34fxNOxf0PhO91yw5MuMen56AxLPOtG7W9T63SCQ2k9Uol1so3bVnrog2JTyU57n1bb37n3s5s8Of5RfsaTdSlfuyUAAAAA8dEVYdGNvbW1lbnQAIEltYWdlIGdlbmVyYXRlZCBieSBHTlUgR2hvc3RzY3JpcHQgKGRldmljZT1wbm1yYXcpCvqLFvMAAABKdEVYdHNpZ25hdHVyZQA4NWUxYWU0YTJmYmE3OGVlZDRmZDhmMGFjZjIzNzYwOWU4NGY1NDk2Y2RlMjBiNWQ3NmM5Y2JjMjk4YzRhZWJjJecJ2gAAAABJRU5ErkJggg=="&gt;</pre>
+<p>Taking advantage of this feature, an attacker can inject their XSS code into the page. In the case of a system that blocks specific strings like &#8220;script&#8221; or symbols like parentheses, this method can be used to disguise the payload and evade the protections. An example of this using the default &#8220;&lt;script&gt;alert(&#8220;XSS&#8221;);&lt;/script&gt;&#8221; payload would be:</p>
+<pre>&lt;object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgiWFNTIik7PC9zY3JpcHQ+Cg=="&gt;</pre>
+<p>HTML tags that are able to carry these payloads are</p>
+<ul>
+<li>IFRAME</li>
+<li>Object</li>
+<li>Anchor</li>
+<li>Image</li>
+</ul>
+<p><span style="line-height: 1.5em;">There are some limitations to this technique though. Most modern browsers support the use of data URIs, however Internet Explorer &lt; 8 does not. IE8 now has support for URIs but only with CSS. Using CSS is not much more difficult than with HTML. Using the image provided above for example, a CSS version would be:</span></p>
+<pre>li { 
+  background: 
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA3CAAAAACNsI2aAAAACXBIWXMAAAB5[snip...]) 
+    no-repeat 
+    left center;
+  padding: 5px 0 5px 25px;
+}</pre>
+<p><strong>Resources:</strong></p>
+<ul>
+<li>http://css-tricks.com/data-uris/</li>
+<li>http://tools.ietf.org/html/rfc2397</li>
+<li>https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet</li>
+<li>http://palizine.plynt.com/issues/2010Oct/bypass-xss-filters/</li>
+<li>http://www-archive.mozilla.org/quality/networking/testing/datatests.html</li>
+</ul>
+
+
+
+</article>
+
+
+    <nav role="navigation" id="pagination">
+
+</nav>
+  </section>
+  
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+</body>
+</html>
