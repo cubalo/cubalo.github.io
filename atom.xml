@@ -4,14 +4,23 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-10T14:54:46-04:00</updated>
+  <updated>2014-04-10T15:57:45-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
-    
+    <email><![CDATA[matt@cubalo.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[test]]></title>
+    <link href="http://cubalo.github.io/blog/2014/04/10/test/"/>
+    <updated>2014-04-10T15:36:47-04:00</updated>
+    <id>http://cubalo.github.io/blog/2014/04/10/test</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[reboot]]></title>
