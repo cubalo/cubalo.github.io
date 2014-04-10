@@ -4,7 +4,7 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-10T16:00:13-04:00</updated>
+  <updated>2014-04-10T16:07:15-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
@@ -14,20 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[test]]></title>
-    <link href="http://cubalo.github.io/blog/2014/04/10/test/"/>
-    <updated>2014-04-10T15:36:47-04:00</updated>
-    <id>http://cubalo.github.io/blog/2014/04/10/test</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[reboot]]></title>
     <link href="http://cubalo.github.io/blog/2014/04/10/reboot/"/>
     <updated>2014-04-10T14:20:11-04:00</updated>
     <id>http://cubalo.github.io/blog/2014/04/10/reboot</id>
-    <content type="html"><![CDATA[<p>Migration from the old site in progress&hellip;</p>
+    <content type="html"><![CDATA[<p>After a long battle with WordPress, I&rsquo;ve finally decided it&rsquo;s time to move on. The old site will be decommissioned within the week or possibly repurposed.</p>
+
+<p>Please excuse the formatting of the posts before this. Jekyll converts the WordPress XML to HTML while Octopress uses Markdown.</p>
 ]]></content>
   </entry>
   
@@ -659,6 +652,15 @@ beef:
 <p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
 <h1>Attack!</h1>
 <p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Beginner's Guide to Tubular Lock Picking]]></title>
+    <link href="http://cubalo.github.io/blog/2013/04/10/a-beginners-guide-to-tubular-lock-picking/"/>
+    <updated>2013-04-10T00:00:00-04:00</updated>
+    <id>http://cubalo.github.io/blog/2013/04/10/a-beginners-guide-to-tubular-lock-picking</id>
+    <content type="html"><![CDATA[<p>http://www.youtube.com/watch?v=ulzZ9T2oGPE</p>
 ]]></content>
   </entry>
   
