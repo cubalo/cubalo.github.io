@@ -4,7 +4,7 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-19T17:25:07-04:00</updated>
+  <updated>2014-04-19T17:36:45-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
@@ -128,7 +128,7 @@
     <link href="http://cubalo.github.io/blog/2013/12/13/50-shades-of-red-stories-from-the-playroom/"/>
     <updated>2013-12-13T00:00:00-05:00</updated>
     <id>http://cubalo.github.io/blog/2013/12/13/50-shades-of-red-stories-from-the-playroom</id>
-    <content type="html"><![CDATA[<p>http://www.youtube.com/watch?v=bRqsdBSVM-g</p>
+    <content type="html"><![CDATA[<iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/bRqsdBSVM-g?rel=0" frameborder="0" allowfullscreen></iframe>
 ]]></content>
   </entry>
   
