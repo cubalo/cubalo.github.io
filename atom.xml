@@ -4,7 +4,7 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-10T16:19:56-04:00</updated>
+  <updated>2014-04-19T17:18:26-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Manually patching Kali's OpenSSL]]></title>
+    <link href="http://cubalo.github.io/blog/2014/04/19/manually-patching-kalis-openssl/"/>
+    <updated>2014-04-19T17:00:38-04:00</updated>
+    <id>http://cubalo.github.io/blog/2014/04/19/manually-patching-kalis-openssl</id>
+    <content type="html"><![CDATA[<p>It has come to my attention that the Kali repositories still have not been synced as of 2205 GMT on April 19, 2014, so here is a quick tutorial on how to manually patch OpenSSL.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wget http://www.openssl.org/source/openssl-1.0.1g.tar.gz
+</span><span class='line'>tar xzf openssl-1.0.1g.tar.gz
+</span><span class='line'>cd openssl-1.0.1g
+</span><span class='line'>./config --prefix=/usr --openssldir=/etc/ssl
+</span><span class='line'>make
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To check your current OpenSSL version, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>openssl version</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hope that this helps and that we&rsquo;ll see 1.0.1g in the repositories shortly.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[reboot]]></title>
@@ -652,15 +683,6 @@ beef:
 <p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
 <h1>Attack!</h1>
 <p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Beginner's Guide to Tubular Lock Picking]]></title>
-    <link href="http://cubalo.github.io/blog/2013/04/10/a-beginners-guide-to-tubular-lock-picking/"/>
-    <updated>2013-04-10T00:00:00-04:00</updated>
-    <id>http://cubalo.github.io/blog/2013/04/10/a-beginners-guide-to-tubular-lock-picking</id>
-    <content type="html"><![CDATA[<p>http://www.youtube.com/watch?v=ulzZ9T2oGPE</p>
 ]]></content>
   </entry>
   

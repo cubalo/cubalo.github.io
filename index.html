@@ -9,7 +9,7 @@
   <meta name="author" content="Matt">
 
   
-  <meta name="description" content="Tweet Reboot Apr 10th, 2014 After a long battle with WordPress, I&rsquo;ve finally decided it&rsquo;s time to move on. The old site will be &hellip;">
+  <meta name="description" content="Tweet Manually Patching Kali&#8217;s OpenSSL Apr 19th, 2014 It has come to my attention that the Kali repositories still have not been synced as of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +95,76 @@
   </header>
   <section id="main">
       
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2014/04/19/manually-patching-kalis-openssl/">Manually Patching Kali&#8217;s OpenSSL</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-19T17:00:38-04:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>It has come to my attention that the Kali repositories still have not been synced as of 2205 GMT on April 19, 2014, so here is a quick tutorial on how to manually patch OpenSSL.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wget http://www.openssl.org/source/openssl-1.0.1g.tar.gz
+</span><span class='line'>tar xzf openssl-1.0.1g.tar.gz
+</span><span class='line'>cd openssl-1.0.1g
+</span><span class='line'>./config --prefix=/usr --openssldir=/etc/ssl
+</span><span class='line'>make
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To check your current OpenSSL version, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>openssl version</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hope that this helps and that we&rsquo;ll see 1.0.1g in the repositories shortly.</p>
+
+  
+  
+
+
+    </article>
   
   
     <article class="post">
@@ -734,77 +804,6 @@ Explanation: <a href="http://en.wikipedia.org/wiki/Return-oriented_programming">
 <p><strong>Challenge</strong>: 2 files were provided, networking.pcap and networking.pcap.process<br />
 <strong>Answer</strong>: f9b43c9e9c05be5e08ea163007af5144 –<br />
 <strong>Method</strong>: Catted the networking.pcap.process file and it was littered with the flag.</p>
-
-  
-  
-
-
-    </article>
-  
-  
-    <article class="post">
-      <div class="sharing-box">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/index.html" data-size="large">Tweet</a>
-  
-  
-  
-</div>
-
-      
-  <header>
-    
-      <h2 class="entry-title">
-        
-        <a href="/blog/2013/09/13/creating-wordlists-with-crunch/">Creating Wordlists With Crunch</a>
-        
-      </h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-13T00:00:00-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <p>Crunch is a wordlist generator project which can create long and complex lists to audit the strength of passwords. This tool also affords a great level of control in creating wordlists, allowing users to control the characters used, minimum and maximum lengths, and specify certain patterns. It is designed to be used with Linux, so support for Windows/BSD/OS X is unknown.</p>
-<h2>Installation</h2>
-<p>To install Crunch, first download the latest version (currently 3.4) from Sourceforge.</p>
-<pre>http://sourceforge.net/projects/crunch-wordlist/files/crunch-wordlist/crunch-3.4.tgz/download</pre>
-<p>Then extract the files from the archive.</p>
-<pre>tar -xvf crunch-3.4.tar.gz</pre>
-<p>Finally, change into the new Crunch directory and install the tool.</p>
-<pre>cd crunch-3.4</pre>
-<pre>make &amp;&amp; make install</pre>
-<h2>Usage</h2>
-<p>You can check the user manual by using the man command. Basic usage is as follows</p>
-<pre>./crunch [min length] [max length] [character set] [options]</pre>
-<h3>Examples:</h3>
-<p>Create a list of all lowercase alpha passwords 3 characters in length:</p>
-<pre>./crunch 3 3</pre>
-<p>Create a list of passwords 4 characters in length using only 1, 2, 3, A, B, C, and D:</p>
-<pre>./crunch 4 4 123ABCD</pre>
-<p>Create the same list as above, including the special characters $, %, and &amp;:</p>
-<pre>./crunch 4 4 123ABCD\$\%<pre wp-pre-tag-7></pre>amp;</pre>
-<p>Send the output of the previous command to a file and zip it in the 7zip format:</p>
-<pre>./crunch 4 4 123ABCD\$\%<pre wp-pre-tag-8></pre>amp; -o new_wordlist.txt -z 7z</pre>
-<p>Use the rainbow tables character sets file (charset.txt) to create a list of passwords 4-8 characters in length including upper, lower, numerical and special:</p>
-<pre>./crunch 4 8 -f charset.txt mixalpha-numeric-all</pre>
-<p><em>Note: charset.txt can be found <a href="http://www.rainbowtables.net/misc/charset.txt">here</a></em></p>
 
   
   
