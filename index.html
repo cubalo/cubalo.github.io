@@ -188,21 +188,27 @@ Pause the Spider and go into the Spider options tab. Scroll down to the Request 
 
 <p><img src="/images/user_agent_header-SHELLSHOCK.png"></p>
 
-<p>This uses wget to download you reverse shell you put on your web server and save it to the /tmp/ directory, change the file permissions to 777, and run the reverse shell. If successful, this will call back to your netcat listener.
+<p>This uses wget to download your reverse shell you put on your web server and save it to the /tmp/ directory, change the file permissions to 777, and run the reverse shell. If successful, this will call back to your netcat listener.
 If you can get it to call back and open the shell, you&rsquo;ll have a session as the user on the remote system.</p>
 
 <p>NOTE: In Burp, I chose to use the Spider as I am a fan of automating as much as possible, but Intruder or Repeater work just as well.</p>
 
-<p><h2>Remediating<h2></p>
+<h2>Remediating</h2>
+
+
+<p></p>
 
 <p>Remediating the issue is pretty straightforward now that most operating systems have a patch in their repositories. For instance, I patched my Kali box with a simple &ldquo;apt-get update &amp;&amp; apt-get -y dist-upgrade.&rdquo; However, if you do not have the luxury of being able to do full distro upgrades, building from source is always an option and many distros are providing tutorials.</p>
 
 <p>Once you&rsquo;ve updated, make sure you run through the detection command mentioned above. If it responds with the following errors, your system is patched. CVE-2014-7169 notes that the original patch was incorrect, so make sure to stay on top of updates for the next week or so.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>bash: warning: var: ignoring function definition attempt
-</span><span class='line'>bash: error importing function definition for `var'</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>bash: error importing function definition for `var'</span></code></pre></td></tr></table></div></figure>
+
+
+
 
   
   
