@@ -9,7 +9,7 @@
   <meta name="author" content="Matt">
 
   
-  <meta name="description" content="Tweet Creating Wordlists With Crunch Crunch is a wordlist generator project which can create long and complex lists to audit the strength of &hellip;">
+  <meta name="description" content="Tweet CSAW CTF 2013 Writeup NYU-Poly&#8217;s Cyber Security Awareness Week (CSAW) Capture the Flag (CTF) event was held this year from September 19- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +95,92 @@
   </header>
   <section id="main">
       
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/10/01/csaw-ctf-2013-writeup/">CSAW CTF 2013 Writeup</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-01T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>NYU-Poly&#8217;s Cyber Security Awareness Week (CSAW) Capture the Flag (CTF) event was held this year from September 19-22. This CTF is geared towards undergrads looking to break into security, however the event provides some decent challenges for professionals.</p>
+<p>Unfortunately, I wasn&#8217;t able to dedicate as much time to the contest as I would have like to due to some personal obligations but I was able to knock out quite a few challenges. The solutions and explanations follow.</p>
+<h3>Trivia 1 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;Drink all the booze, ____ all the things!&#8221;<br />
+<strong>Answer</strong>: hack<br />
+<strong>Explanation</strong>: Lyrics from Dual Core’s “All The Things.” <a href="http://www.youtube.com/watch?v=FoUWHfh733Y">http://www.youtube.com/watch?v=FoUWHfh733Y</a></p>
+<h3>Trivia 2 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the abbreviation of the research published in the Hackin9 issue on nmap by Jon Oberheide, Nico Waisman, Matthieu Suiche, Chris Valasek, Yarochkin Fyodor, the Grugq, Jonathan Brossard, and Mark Dowd?&#8221;<br />
+<strong>Answer</strong>: DICKS<br />
+<strong>Explanation</strong>: The title of the Hackin9 article was “Nmap: The Internet Considered Harmful - DARPA Inference Cheking Kludge Scanning”<br />
+<a href="http://www.theregister.co.uk/2012/10/05/hakin9_silliness/">http://www.theregister.co.uk/2012/10/05/hakin9_silliness/</a></p>
+<h3>Trivia 3 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the common name for a single grouping of instructions used in a Return Oriented Programming payload, typically ending in a return (ret) instruction?&#8221;<br />
+<strong>Answer</strong>: gadget<br />
+Explanation: <a href="http://en.wikipedia.org/wiki/Return-oriented_programming">http://en.wikipedia.org/wiki/Return-oriented_programming</a></p>
+<h3>Trivia 4 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the new web technology that provides a web browser full-duplex communication to a web server over a single connection?&#8221;<br />
+<strong>Answer</strong>: WebSocket<br />
+<strong>Explanation</strong>: <a href="http://www.websocket.org/aboutwebsocket.html">http://www.websocket.org/aboutwebsocket.html</a></p>
+<h3>Trivia 5 – 50 points</h3>
+<p><strong>Challenge</strong>: &#8220;What is the x86 processor operating mode for running 64-bit code?&#8221;<br />
+<strong>Answer</strong>: long mode<br />
+<strong>Explanation</strong>: <a href="http://wiki.osdev.org/X86-64#Long_Mode">http://wiki.osdev.org/X86-64#Long_Mode</a></p>
+<h3>Web 1 – 100 points</h3>
+<p><strong>Challenge</strong>: This challenge required you to &#8220;guess&#8221; the password for the admin user.<br />
+<strong>Answer</strong>: told_ya_you_wouldnt_guess_it<br />
+<strong>Method</strong>: Using a proxy such as Burp, intercept the POST when logging in and change the cookie value to “admin=true”. Once logged in, the flag will be presented.</p>
+<h3>Exploitation1 – 100 points</h3>
+<p><strong>Challenge</strong>: An IP address and a port were provided as well as two files.<br />
+<strong>Answer</strong>: 7c1fbb502632bffa6e62ba6fa847681f<br />
+<strong>Method</strong>: Netcat to the IP/Port specified in the challenge description and then send data greater than 4096 bytes (I used A’s). This will return the flag and close the connection.</p>
+<h3>Misc. 1 – 50 points</h3>
+<p><strong>Challenge</strong>: A PCAP file was provided.<br />
+<strong>Answer</strong>: d316759c281bf925d600be698a4973d5 –<br />
+<strong>Method</strong>: The PCAP includes Telnet traffic, so using Wireshark I followed the TCP stream and the flag was in the traffic.</p>
+<h3>Misc. 2 – 50 points</h3>
+<p><strong>Challenge</strong>: 2 files were provided, networking.pcap and networking.pcap.process<br />
+<strong>Answer</strong>: f9b43c9e9c05be5e08ea163007af5144 –<br />
+<strong>Method</strong>: Catted the networking.pcap.process file and it was littered with the flag.</p>
+
+  
+  
+
+
+    </article>
   
   
     <article class="post">
@@ -744,89 +830,6 @@ wlan1 IEEE 802.11abgn ESSID:off/any
 <p><strong>Problem: Where does The Plague hide his money?</strong></p>
 <p>This is a reference to the movie <em>Hackers </em>(1995). Unfortunately, the only way to know the answer to this is to have watched the movie.</p>
 <p><strong>Answer: <strong>03087-08351-27H</strong></strong></p>
-
-  
-  
-
-
-    </article>
-  
-  
-    <article class="post">
-      <div class="sharing-box">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/2/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/2/index.html" data-size="large">Tweet</a>
-  
-  
-  
-</div>
-
-      
-  <header>
-    
-      <h2 class="entry-title">
-        
-        <a href="/blog/2013/04/12/fun-with-beef-qr-codes/">Hooking Browsers With BeEF & QR Codes</a>
-        
-      </h2>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-12T00:00:00-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <p>For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be used to launch attacks against the often only door left open, the web browser. Once the browser is compromised, BeEF can launch further attacks to control the system. While some of us know not to scan any QR code we find, most people assume that they are safe. You can find them posted all around. Sales circulars, marketing materials, magazines, they&#8217;re everywhere. Why not take advantage of that inherent trust?</p>
-<p>For this tutorial, I&#8217;m going to assume that you are running Backtrack 5 R3 or Kali. If not, installation instructions can be found <a href="https://github.com/beefproject/beef/wiki/Installation">here</a>.</p>
-<h1>customhook</h1>
-<p>First things first, we need to edit the customhook config. When BeEF fires up, it sets the hook location to your.i.p.address/hook/ which is pretty obvious. So by editing the config, we can set a custom name for our hook and make it a little less conspicuous. The config can be found at $BEEF_ROOT/extensions/customhook/config.yaml. Pop that open with your favorite editor and change the values to whatever you want. Its pretty self-explanatory.</p>
-<pre>#
-# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
-# Browser Exploitation Framework (BeEF) - http://beefproject.com
-# See the file 'doc/COPYING' for copying permission
-#
-beef:
-    extension:
-        customhook:
-            enable: true
-            name: 'Custom Hook Point with iFrame Impersonation'
-            customhook_path: "/notice"
-            customhook_target: "http://heyyeyaaeyaaaeyaeyaa.com/"
-            customhook_title: "Notice"</pre>
-<p>Make sure you set &#8220;enable:&#8221; to true.</p>
-<h1>qrcode</h1>
-<p>Next, we need to edit the qrcode extension&#8217;s config. All you need to do here is set &#8220;enable:&#8221; to true and set the &#8220;target:&#8221; to your customhook location (or a bit.ly link of it if you&#8217;re feeling extra sneaky ;) ). It can be found at $BEEF_ROOT/extensions/qrcode/config.yaml.</p>
-<pre>#
-# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
-# Browser Exploitation Framework (BeEF) - http://beefproject.com
-# See the file 'doc/COPYING' for copying permission
-#
-beef:
-    extension:
-        qrcode:
-            name: 'QR Code Generator'
-            enable: true
-            authors: ["xntrik"]
-            target: ["mybeefserver.com/notice"]
-            qrsize: "300x300"</pre>
-<p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
-<h1>Attack!</h1>
-<p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
 
   
   

